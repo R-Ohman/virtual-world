@@ -8,6 +8,11 @@ void Fox::draw()
 {
 }
 
+string Fox::getName()
+{
+    return string();
+}
+
 void Fox::action()
 {
 }

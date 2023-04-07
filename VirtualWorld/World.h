@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#ifndef World_h
+#define World_h
 
 #include "Organism.h"     // Organizm
 
@@ -22,9 +23,9 @@
 #include <time.h>       // srand time NULL
 #include <typeinfo>     // typeid()
 
+class Organism;
 using std::string;
 
-class Organism;
 // Tury organizmów odbywają się w ten sposób, że przeskakujemy po każdym kolejnym organiźmie i wykonujemy jego ruch i/lub akcję
 // Organizmy ustawiają się w kolejce wtedy gdy są tworzone
 struct lookup_t {
@@ -78,3 +79,5 @@ public:
 
     ~World();
 };
+
+#endif

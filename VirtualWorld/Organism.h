@@ -1,9 +1,9 @@
-﻿#pragma once
+﻿#ifndef Organism_h
+#define Organism_h
 
+class World;
 #include <iostream>
 #include <string>
-#include "World.h"
-
 using std::string;
 
 class Organism {
@@ -15,6 +15,7 @@ protected:
     int age;                                // Wiek organizmu, ustalany z góry w konstruktorze
 public:
     bool newBorn;                           // Jeżeli organizm został dopiero co stworzony
+	Organism() = default;
     Organism(World* currentWorld, int strength, int initiative, int pos_x, int pos_y, int age, bool newBorn);
     virtual int* pathFindNewField();        // Znalezienie miejsca do poruszenia się
     int* pathFindNewUnoccupiedField();      // Znalezienie niezajętego miejsca do poruszenia się
@@ -31,9 +32,10 @@ public:
     virtual bool reflected(Organism* entity);           // Organizm żółw może odbijać ataki kierowane w jego stronę
     virtual Organism* clone(int posX, int posY) = 0;    // Rozmnażanie się organizmów
 
-    virtual string getName() = 0;
+    virtual std::string getName() = 0;
     virtual void draw() = 0;
     virtual void action() = 0;
     virtual ~Organism();
 };
 
+#endif

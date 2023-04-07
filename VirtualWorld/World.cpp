@@ -93,5 +93,9 @@ void World::saveWorld()
 
 World World::loadWorld()
 {
-    return World();
+    return World(0, 0);
+}
+
+World::~World()
+{
 }
