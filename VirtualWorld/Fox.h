@@ -11,7 +11,7 @@ public:
     void draw() override;
     string getName() override;
     void action() override;
-    Organism* clone(int posX, int posY) override;
+    Organism* createClone(unsigned x, unsigned y) override;
     ~Fox() override;
 };
 

@@ -13,7 +13,7 @@ string Wolf::getName()
     return string();
 }
 
-Organism* Wolf::clone(int posX, int posY)
+Organism* Wolf::createClone(unsigned x, unsigned y)
 {
     return nullptr;
 }

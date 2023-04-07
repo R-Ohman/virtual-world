@@ -17,7 +17,7 @@ void Fox::action()
 {
 }
 
-Organism* Fox::clone(int posX, int posY)
+Organism* Fox::createClone(unsigned x, unsigned y)
 {
     return nullptr;
 }

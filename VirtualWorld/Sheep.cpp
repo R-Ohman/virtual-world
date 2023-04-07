@@ -13,7 +13,7 @@ string Sheep::getName()
     return string();
 }
 
-Organism* Sheep::clone(int posX, int posY)
+Organism* Sheep::createClone(unsigned x, unsigned y)
 {
     return nullptr;
 }

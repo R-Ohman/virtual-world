@@ -11,7 +11,7 @@ public:
     void draw() override;
     void action() override;
     string getName() override;
-    Organism* clone(int posX, int posY) override;
+    Organism* createClone(unsigned x, unsigned y) override;
     ~Dandelion() override;
 };
 

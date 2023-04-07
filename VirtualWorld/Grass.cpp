@@ -13,7 +13,7 @@ string Grass::getName()
     return string();
 }
 
-Organism* Grass::clone(int posX, int posY)
+Organism* Grass::createClone(unsigned x, unsigned y)
 {
     return nullptr;
 }

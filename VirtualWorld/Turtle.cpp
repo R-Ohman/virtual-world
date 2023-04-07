@@ -17,12 +17,12 @@ string Turtle::getName()
     return string();
 }
 
-bool Turtle::reflected(Organism* entity)
+bool Turtle::repulsedAttack(Organism* entity)
 {
     return false;
 }
 
-Organism* Turtle::clone(int posX, int posY)
+Organism* Turtle::createClone(unsigned x, unsigned y)
 {
     return nullptr;
 }

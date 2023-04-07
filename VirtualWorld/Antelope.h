@@ -15,7 +15,7 @@ public:
     void draw() override;
     string getName() override;
     void collision(Organism* collidingEntity) override;
-    Organism* clone(int posX, int posY) override;
+    Organism* createClone(unsigned x, unsigned y) override;
     ~Antelope() override;
 };
 

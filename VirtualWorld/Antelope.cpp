@@ -22,7 +22,7 @@ void Antelope::collision(Organism* collidingEntity)
 {
 }
 
-Organism* Antelope::clone(int posX, int posY)
+Organism* Antelope::createClone(unsigned x, unsigned y)
 {
     return nullptr;
 }

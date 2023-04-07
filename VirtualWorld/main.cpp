@@ -24,55 +24,57 @@ int main() {
         // Konstruktor normalnego świata
         World newWorld(width, height);
         // Dopóki znajdujemy się na planszy
-        while (newWorld.getGameStatus()) {
+        while (newWorld.gameContinues()) {
             system("cls");
             newWorld.drawWorld();
             newWorld.makeTurn();
             // Jednocześnie służy to jako przerwa między narysowaniem kolejne tury
             // oraz zapis i załadowanie świata
-            printf("Any key to continue, x to save the game...\n");
+            printf("Any key to continue\n[x - save, q - exit]\n");
             playerInput = getchar();
             if (playerInput == 'x') {
                 newWorld.saveWorld();
-                getchar();
-                getchar();
+                playerInput = getchar();
             }
+			else if (playerInput == 'q') {
+                return 0;
+			}
         }
         // Koniec gry, pokaz świata
         system("cls");
         newWorld.drawWorld();
     }
-    else if (userOption == 2) {
-        std::ifstream loadFile;
-        loadFile.open("backupWorld.txt", std::ios::in);
-        if (!loadFile) {
-            printf("There is no saved world.\n");
-            exit(1);
-        }
-        int oldTurn, oldCooldown;
-        loadFile >> oldTurn >> oldCooldown;
-        loadFile >> width >> height;
-        // Konstruktor zapisanego świata
-        World savedWorld(width, height, loadFile);
+    //else if (userOption == 2) {
+    //    std::ifstream loadFile;
+    //    loadFile.open("backupWorld.txt", std::ios::in);
+    //    if (!loadFile) {
+    //        printf("There is no saved world.\n");
+    //        exit(1);
+    //    }
+    //    int oldTurn, oldCooldown;
+    //    loadFile >> oldTurn >> oldCooldown;
+    //    loadFile >> width >> height;
+    //    // Konstruktor zapisanego świata
+    //    World savedWorld(width, height, loadFile);
 
-        savedWorld.setTurn(oldTurn);                // Przywrócenie numeru tury
-        savedWorld.setHumanCooldown(oldCooldown);   // Przywrócenie cooldownu specjalnej umiejętności
+    //    savedWorld.setTurn(oldTurn);                // Przywrócenie numeru tury
+    //    savedWorld.setHumanCooldown(oldCooldown);   // Przywrócenie cooldownu specjalnej umiejętności
 
-        while (savedWorld.getGameStatus()) {
-            system("cls");
-            savedWorld.drawWorld();
-            savedWorld.makeTurn();
-            playerInput = getchar();
-            if (playerInput == 'x') {
-                savedWorld.saveWorld();
-                getchar();
-                getchar();
-            }
-        }
-        // Koniec gry, pokaz świata
-        system("cls");
-        savedWorld.drawWorld();
-    }
+    //    while (savedWorld.getGameStatus()) {
+    //        system("cls");
+    //        savedWorld.drawWorld();
+    //        savedWorld.makeTurn();
+    //        playerInput = getchar();
+    //        if (playerInput == 'x') {
+    //            savedWorld.saveWorld();
+    //            getchar();
+    //            getchar();
+    //        }
+    //    }
+    //    // Koniec gry, pokaz świata
+    //    system("cls");
+    //    savedWorld.drawWorld();
+    //}
     else {
         exit(1);
     }

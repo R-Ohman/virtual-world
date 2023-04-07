@@ -13,7 +13,7 @@ string Guarana::getName()
     return string();
 }
 
-Organism* Guarana::clone(int posX, int posY)
+Organism* Guarana::createClone(unsigned x, unsigned y)
 {
     return nullptr;
 }

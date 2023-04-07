@@ -13,7 +13,7 @@ string Belladonna::getName()
     return string();
 }
 
-Organism* Belladonna::clone(int posX, int posY)
+Organism* Belladonna::createClone(unsigned x, unsigned y)
 {
     return nullptr;
 }

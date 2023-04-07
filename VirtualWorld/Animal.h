@@ -11,13 +11,14 @@ using std::string;
 class Animal : public Organism {
 public:
     Animal() = default;
-    Animal(World* currentWorld, int strength, int initiative, int pos_x, int pos_y, int age, bool newborn);
+    Animal(World* world, unsigned strength, unsigned initiative, unsigned posX, unsigned posY, unsigned age);
     bool doSpeciesMatch(Organism& entity);
     void breed();
     std::string getName() override = 0;         // Każde zwierzę ma inną nazwę
     void draw() override = 0;                   // Każde zwierzę jest inaczej oznaczane
     void action() override;                     // Każde zwierzę inaczej się zachowuje
-    virtual void collision(Organism* collidingEntity);
+	void collision(Organism* collidingEntity) override;
+   // virtual void collision(Organism* collidingEntity);
     ~Animal();
 };
 

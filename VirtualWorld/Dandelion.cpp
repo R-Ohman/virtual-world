@@ -17,7 +17,7 @@ string Dandelion::getName()
     return string();
 }
 
-Organism* Dandelion::clone(int posX, int posY)
+Organism* Dandelion::createClone(unsigned x, unsigned y)
 {
     return nullptr;
 }

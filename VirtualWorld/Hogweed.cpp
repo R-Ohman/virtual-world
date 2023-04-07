@@ -17,7 +17,7 @@ string Hogweed::getName()
     return string();
 }
 
-Organism* Hogweed::clone(int posX, int posY)
+Organism* Hogweed::createClone(unsigned x, unsigned y)
 {
     return nullptr;
 }

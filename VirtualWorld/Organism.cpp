@@ -1,6 +1,7 @@
 #include "Organism.h"
 
-Organism::Organism(World* currentWorld, int strength, int initiative, int pos_x, int pos_y, int age, bool newBorn)
+Organism::Organism(World* world, unsigned strength, unsigned initiative, unsigned posX, unsigned posY, unsigned age)
+		: world(world), strength(strength), initiative(initiative), position{ posX, posY }, age(age)
 {
 }
 
@@ -14,45 +15,42 @@ int* Organism::pathFindNewUnoccupiedField()
 	return nullptr;
 }
 
-int Organism::getStrength()
+unsigned Organism::getStrength()
 {
-	return 0;
+	return strength;
 }
 
-int Organism::getInitiative()
+unsigned Organism::getInitiative()
 {
-	return 0;
+	return initiative;
 }
 
-void Organism::setX(int x)
+void Organism::setX(unsigned x)
 {
+	this->position[0] = x;
 }
 
-void Organism::setY(int y)
+void Organism::setY(unsigned y)
 {
+	this->position[1] = y;
 }
 
-int Organism::getX()
+unsigned Organism::getX()
 {
-	return 0;
+	return this->position[0];
 }
 
-int Organism::getY()
+unsigned Organism::getY()
 {
-	return 0;
+	return this->position[1];
 }
 
-int Organism::getAge()
+unsigned Organism::getAge()
 {
-	return 0;
+	return this->age;
 }
 
-bool Organism::getNewBorn()
-{
-	return false;
-}
-
-bool Organism::reflected(Organism* entity)
+bool Organism::repulsedAttack(Organism* entity)
 {
 	return false;
 }

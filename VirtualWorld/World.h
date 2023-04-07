@@ -26,56 +26,65 @@
 class Organism;
 using std::string;
 
+
 // Tury organizmów odbywają się w ten sposób, że przeskakujemy po każdym kolejnym organiźmie i wykonujemy jego ruch i/lub akcję
 // Organizmy ustawiają się w kolejce wtedy gdy są tworzone
-struct lookup_t {
+struct Node {
     Organism* entity;
-    lookup_t* next;
+    Node* next;
 };
+
 
 class Entities {
 private:
-    int maxSize;
-    int currentSize = 0;
+    int allocatedSize;
+    int size = 0;
 public:
-    Entities(int maxSize);
-    lookup_t* lookup;
-    int getMaxSize();
-    int getCurrentSize();
+    Entities(unsigned allocatedSize);
+    Node* head;
+    int getAllocSize();
+    int getSize();
     void add(Organism* entity);
     void remove(Organism* entity);
     ~Entities();
 };
 
+
 class World {
 private:
-    int N, M;
-    int turn = 1;
-    int humanCooldown;
-    bool gameStatus;
+    unsigned width, height;
+    unsigned turnNumber;
+    int humanRegeneration;
+    //bool gameStatus;
 public:
-    World(int N, int M);                                // Konstruktor nowego świata defaultowego
-    World(int N, int M, std::ifstream& loadFile);       // Konstruktor świata zapisanego w pliku
+    World(unsigned w, unsigned h);                                // Konstruktor nowego świata defaultowego
+    //World(unsigned w, unsigned h, std::ifstream& loadFile);       // Konstruktor świata zapisanego w pliku
 
-    int getN();
-    int getM();
-    int getHumanCooldown();
-    int getTurn();
-    bool getGameStatus();
-    void setGameStatus();
-    void setHumanCooldown(int i);
-    void setTurn(int turn);
+    int getWidth();
+    int getHeight();
+    int getHumanRegeneration();
+    int getTurnNumber();
+    //bool getGameStatus();
+    //void setGameStatus();
+    //void setHumanCooldown(int i);
+    //void setTurn(int turn);
 
+    bool gameContinues();
+
+    // rysujSwiat()
     void drawWorld();
+    // wykonajTure()
     void makeTurn();
+    
     void placeRandom(Organism* entity);
-    void placeSpecific(Organism* entity, int axisN, int axisM);
+    //void placeSpecific(Organism* entity, int axisX, int axisY);
 
     void saveWorld();
-    World loadWorld();
+    //World loadWorld();
 
-    Organism*** entitySpace;                // wskaźnik na array dwu wymiarowy ze wskaźnikami
-    Entities* entityLookup;
+    // Organizmy
+    Organism*** entitiesField;  // wskaźnik na array dwu wymiarowy ze wskaźnikami
+    Entities* entitiesList;
 
     ~World();
 };
