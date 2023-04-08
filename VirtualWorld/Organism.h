@@ -16,7 +16,7 @@ protected:
     unsigned age;                                // Wiek organizmu, ustalany z góry w konstruktorze
 public:
 	Organism() = default;
-	Organism(World* world, unsigned strength, unsigned initiative, unsigned posX, unsigned posY, unsigned age = 0);
+	Organism(World* world, unsigned strength, unsigned initiative, unsigned posX = -1, unsigned posY = -1, unsigned age = 0);
     virtual unsigned* getNeighboringPosition();        // Znalezienie miejsca do poruszenia się
     unsigned* getUnoccupiedNeighboringPosition();      // Znalezienie niezajętego miejsca do poruszenia się
 

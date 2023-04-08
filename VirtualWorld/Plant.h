@@ -9,7 +9,7 @@
 class Plant : public Organism {
 public:
     Plant() = default;
-    Plant(World* currentWorld, unsigned strength, unsigned posX = 0, unsigned posY = 0, unsigned age = 0);
+    Plant(World* currentWorld, unsigned strength, unsigned posX = -1, unsigned posY = -1, unsigned age = 0);
     void action() override;
     ~Plant();
 };

@@ -4,6 +4,10 @@
 Organism::Organism(World* world, unsigned strength, unsigned initiative, unsigned posX, unsigned posY, unsigned age)
 		: world(world), strength(strength), initiative(initiative), position{ posX, posY }, age(age)
 {
+	if (posX < world->getWidth() && posY < world->getHeight()) {
+		world->entitiesField[posX][posY] = this;
+	}
+	world->entitiesList->add(this);
 }
 
 unsigned* Organism::getNeighboringPosition()

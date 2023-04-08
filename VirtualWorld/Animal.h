@@ -13,7 +13,7 @@ using std::string;
 class Animal : public Organism {
 public:
     Animal() = default;
-    Animal(World* world, unsigned strength, unsigned initiative, unsigned posX, unsigned posY, unsigned age = 0);
+    Animal(World* world, unsigned strength, unsigned initiative, unsigned posX = -1, unsigned posY = -1, unsigned age = 0);
     bool sameSpecies(Organism& entity);
     void breed();
     std::string getName() override = 0;         // Każde zwierzę ma inną nazwę

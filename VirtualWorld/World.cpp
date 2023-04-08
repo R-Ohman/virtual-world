@@ -17,6 +17,11 @@ int Entities::getSize()
     return this->size;
 }
 
+void Entities::setSize(unsigned size)
+{
+    this->size = size;
+}
+
 void Entities::add(Organism* entity)
 {
     // Sprawdzenie czy jest wolne miejsce w ilosci organizmow
@@ -31,9 +36,12 @@ void Entities::add(Organism* entity)
     newEntityNode->next = nullptr;
 
     Node* current = head;
-	// Sortuje po inicjatywie i wieku
+    // Sortuje po inicjatywie i wieku
     // Znalezienie miejsca dla nowego organizmu
     while (current->next != nullptr) {
+        if (current->next->entity == entity) {
+            return;
+        }
         // sprawdzenie czy inicjatywa nowego organizmu jest większa od następnego organizmu
         if (entity->getInitiative() > current->next->entity->getInitiative()) {
             // jeżeli tak to koniec funkcji
@@ -54,28 +62,38 @@ void Entities::add(Organism* entity)
     current->next = newEntityNode;
     // Zwiększenie currentSize
     this->size++;
+
+	std::cout << "Add entity to lookup: " << typeid(*entity).name() << ". New size : " << size << " .\n";
+
 }
 
 void Entities::remove(Organism* entity)
 {
-	Node* current = head;
-	Node* previous = nullptr;
+    Node* current = head;
+    Node* previous = nullptr;
 
-	// Szukanie organizmu do usunięcia
-	while (current->next != nullptr) {
-		if (current->entity == entity) {
-			break;
-		}
-		previous = current;
-		current = current->next;
-	}
-    if (previous != nullptr) {
-        previous->next = current->next;
+    // Поиск элемента, содержащего указатель на удаляемый объект
+    while (current != nullptr && current->entity != entity) {
+        previous = current;
+        current = current->next;
     }
-    // Usunięcie organizmu
-	delete entity;
-	// Zmniejszenie currentSize
-	this->size--;
+
+    // Если элемент найден
+    if (current != nullptr) {
+        // Обновление указателя previous на следующий элемент списка
+        if (previous != nullptr) {
+            previous->next = current->next;
+        }
+        else {
+            head = current->next;
+        }
+
+        // Уменьшение размера списка
+        this->size--;
+        std::cout << "Remove entity from lookup: " << typeid(*entity).name() << ". New size : " << size << " .\n";
+        // Освобождение памяти, выделенной под элемент списка
+        delete entity;
+    }
 }
 
 Entities::~Entities()
@@ -204,7 +222,7 @@ void World::drawWorld()
         }
         printf("\n");
     }
-    printf("Legend :\n[A - Antelope][B - Belladonna][F - Fox]\n[# - Grass][G - Guarana][& - Hogweed]\n[<.> - Human][S - Sheep][D - Dandelion]\n[T - Turtle][W - Wolf]\n");
+    printf("Legend :\n[A - Antelope][(B) - Belladonna][F - Fox]\n[(g) - Grass][(G) - Guarana][(H) - Hogweed]\n[H - Human][S - Sheep][(D) - Dandelion]\n[T - Turtle][W - Wolf]\n");
 }
 
 void World::makeTurn()

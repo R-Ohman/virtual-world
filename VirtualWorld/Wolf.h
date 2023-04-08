@@ -8,7 +8,7 @@
 class Wolf : public Animal {
 public:
     Wolf() = default;
-    Wolf(World* currentWorld, unsigned posX = 0, unsigned posY = 0, unsigned age = 0);
+    Wolf(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0);
     void draw() override;
     string getName() override;
     Organism* createClone(unsigned x, unsigned y) override;

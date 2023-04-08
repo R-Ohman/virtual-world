@@ -32,6 +32,7 @@ int main() {
             // oraz zapis i załadowanie świata
             printf("Any key to continue\n[x - save, q - exit]\n");
             playerInput = getchar();
+            playerInput = getchar();
             if (playerInput == 'x') {
             //    newWorld.saveWorld();
                 playerInput = getchar();

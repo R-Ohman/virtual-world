@@ -15,25 +15,25 @@ void Human::action()
 	this->age++;
 	char userMove;
 	unsigned* posX = &this->position[0], *posY = &this->position[1];
-	unsigned position[2] = { *posX, *posY };
+	unsigned newPosition[2] = { *posX, *posY };
 	printf("Move (arrows) or use special ability (r):\n");
-	printf("Human position(%d, %d)\n", position[0], position[1]);
+	printf("Human position(%d, %d)\n", *posX, *posY);
 	while (true) {
 		userMove = getchar();
 		if (userMove == 'a' && *posX > 0) {
-			(*posX)--;
+			newPosition[0] -= 1;
 			break;
 		}
 		else if (userMove == 'd' && *posX < world->getWidth() - 1) {
-			(*posX)++;
+			newPosition[0] += 1;
 			break;
 		}
 		else if (userMove == 'w' && *posY > 0) {
-			(*posY)--;
+			newPosition[1] -= 1;
 			break;
 		}
 		else if (userMove == 's' && *posY < world->getHeight() - 1) {
-			(*posY)++;
+			newPosition[1] += 1;
 			break;
 		}
 		else if (userMove == 'r') {
@@ -41,11 +41,13 @@ void Human::action()
 			break;
 		}
 	}
-	world->entitiesField[position[0]][position[1]] = nullptr;
-	if (world->entitiesField[*posX][*posY] != nullptr) {
-		world->entitiesField[*posX][*posY]->collision(this);
+	world->entitiesField[*posX][*posY] = nullptr;
+	if (world->entitiesField[newPosition[0]][newPosition[1]] != nullptr) {
+		collision(world->entitiesField[newPosition[0]][newPosition[1]]);
 	} 
 	else {
+		*posX = newPosition[0];
+		*posY = newPosition[1];
 		world->entitiesField[*posX][*posY] = this;
 	}
 }

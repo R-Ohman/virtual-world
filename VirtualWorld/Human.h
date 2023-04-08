@@ -13,7 +13,7 @@ using std::string;
 class Human : public Animal {
 public:
     Human() = default;
-    Human(World* world, unsigned posX = 0, unsigned posY = 0, unsigned age = 1);
+    Human(World* world, unsigned posX = -1, unsigned posY = -1, unsigned age = 0);
     void draw() override;
     void action() override;
     std::string getName() override;

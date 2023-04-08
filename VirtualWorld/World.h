@@ -40,12 +40,13 @@ struct Node {
 class Entities {
 private:
     int allocatedSize;
-    int size = 0;
+    unsigned size = 0;
 public:
     Entities(unsigned allocatedSize);
     Node* head;
     int getAllocSize();
     int getSize();
+    void setSize(unsigned size);
     void add(Organism* entity);
     void remove(Organism* entity);
     ~Entities();

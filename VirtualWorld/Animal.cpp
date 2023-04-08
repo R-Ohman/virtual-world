@@ -43,7 +43,7 @@ void Animal::action()
 }
 
 void Animal::collision(Organism* collidingEntity)
-{
+{             
     if (sameSpecies(*collidingEntity)) {
         
         // Kolizja z tym samym organizmem
@@ -75,6 +75,10 @@ void Animal::collision(Organism* collidingEntity)
                 std::cout << this->getName() << " (" << getX() << "," << getY() << ") strength increased (+3).\n";
                 strength += 3;
             }
+            if (collidingEntity->getName() == "Human") {
+                // GAME OVER
+                world->entitiesList->setSize(unsigned(-1)/2);
+            }
             // Usunięcie organizmu z planszy
             world->entitiesField[getX()][getY()] = nullptr;
             position[0] = collidingEntity->getX();
@@ -86,6 +90,10 @@ void Animal::collision(Organism* collidingEntity)
             // W przeciwnym wypadku przegrana
             // HogWeed to wilcze jagody, zjedzenie ich pokonuje każdy organizm
             std::cout << "Defeat of " << this->getName() << ".\n";
+            if (this->getName() == "Human") {
+                // GAME OVER
+                world->entitiesList->setSize(unsigned(-1) / 2);
+            }
             world->entitiesField[getX()][getY()] = nullptr;
             world->entitiesList->remove(this);
         }         
