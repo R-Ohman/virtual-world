@@ -1,30 +1,23 @@
 #include "Antelope.h"
 
-Antelope::Antelope(World* currentWorld, int posX, int posY, int age, bool newBorn)
+Antelope::Antelope(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
+	: Animal(currentWorld, 4, 4, posX, posY, age)
 {
-}
-
-int* Antelope::pathFindNewField()
-{
-    return nullptr;
 }
 
 void Antelope::draw()
 {
+    printf(" A ");
 }
 
 string Antelope::getName()
 {
-    return string();
-}
-
-void Antelope::collision(Organism* collidingEntity)
-{
+    return "Antelope";
 }
 
 Organism* Antelope::createClone(unsigned x, unsigned y)
 {
-    return nullptr;
+    return new Antelope(world, x, y);
 }
 
 Antelope::~Antelope()

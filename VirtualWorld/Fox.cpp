@@ -1,25 +1,23 @@
 #include "Fox.h"
 
-Fox::Fox(World* currentWorld, int posX, int posY, int age, bool newBorn)
+Fox::Fox(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
+	: Animal(currentWorld, 3, 7, posX, posY, age)
 {
 }
 
 void Fox::draw()
 {
+    printf(" F ");
 }
 
 string Fox::getName()
 {
-    return string();
-}
-
-void Fox::action()
-{
+    return "Fox";
 }
 
 Organism* Fox::createClone(unsigned x, unsigned y)
 {
-    return nullptr;
+    return new Fox(world, x, y);
 }
 
 Fox::~Fox()

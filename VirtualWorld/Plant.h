@@ -1,5 +1,6 @@
-#ifndef Plant_h
-#define Plant_h
+#pragma once
+#ifndef _PLANT_H_
+#define _PLANT_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,7 +9,7 @@
 class Plant : public Organism {
 public:
     Plant() = default;
-    Plant(World* currentWorld, int strength, int pos_x, int pos_y, int age, bool newBorn);
+    Plant(World* currentWorld, unsigned strength, unsigned posX = 0, unsigned posY = 0, unsigned age = 0);
     void action() override;
     ~Plant();
 };

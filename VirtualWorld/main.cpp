@@ -33,7 +33,7 @@ int main() {
             printf("Any key to continue\n[x - save, q - exit]\n");
             playerInput = getchar();
             if (playerInput == 'x') {
-                newWorld.saveWorld();
+            //    newWorld.saveWorld();
                 playerInput = getchar();
             }
 			else if (playerInput == 'q') {

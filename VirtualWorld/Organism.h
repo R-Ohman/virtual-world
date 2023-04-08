@@ -1,5 +1,6 @@
-﻿#ifndef Organism_h
-#define Organism_h
+﻿#pragma once
+#ifndef _ORGANISM_H_
+#define _ORGANISM_H_
 
 class World;
 #include <iostream>
@@ -16,8 +17,8 @@ protected:
 public:
 	Organism() = default;
 	Organism(World* world, unsigned strength, unsigned initiative, unsigned posX, unsigned posY, unsigned age = 0);
-    virtual int* pathFindNewField();        // Znalezienie miejsca do poruszenia się
-    int* pathFindNewUnoccupiedField();      // Znalezienie niezajętego miejsca do poruszenia się
+    virtual unsigned* getNeighboringPosition();        // Znalezienie miejsca do poruszenia się
+    unsigned* getUnoccupiedNeighboringPosition();      // Znalezienie niezajętego miejsca do poruszenia się
 
     unsigned getStrength();
     unsigned getInitiative();
@@ -26,6 +27,7 @@ public:
     unsigned getX();
     unsigned getY();
     unsigned getAge();
+    void setAge(unsigned age);
 
     virtual bool repulsedAttack(Organism* entity);               // Organizm żółw może odbijać ataki kierowane w jego stronę
     virtual Organism* createClone(unsigned x, unsigned y) = 0;   // Rozmnażanie się organizmów

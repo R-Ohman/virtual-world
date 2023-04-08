@@ -1,11 +1,10 @@
 ﻿#include "World.h"
 
-
 Entities::Entities(unsigned allocatedSize) : allocatedSize(allocatedSize), size(0)
 {
 	head = new Node();
-	head->entity = NULL;
-	head->next = NULL;
+	head->entity = nullptr;
+	head->next = nullptr;
 }
 
 int Entities::getAllocSize()
@@ -32,7 +31,7 @@ void Entities::add(Organism* entity)
     newEntityNode->next = nullptr;
 
     Node* current = head;
-
+	// Sortuje po inicjatywie i wieku
     // Znalezienie miejsca dla nowego organizmu
     while (current->next != nullptr) {
         // sprawdzenie czy inicjatywa nowego organizmu jest większa od następnego organizmu
@@ -74,18 +73,18 @@ void Entities::remove(Organism* entity)
         previous->next = current->next;
     }
     // Usunięcie organizmu
-	delete current;
+	delete entity;
 	// Zmniejszenie currentSize
 	this->size--;
 }
 
 Entities::~Entities()
 {
-}
+} 
 
 World::World(unsigned w, unsigned h) : width(w), height(h)
 {
-    humanRegeneration = 0;
+    humanRegeneration = 5;
 	turnNumber = 0;
     printf("World(%d,%d) initialized...\n", w, h);
     srand(time(NULL));
@@ -99,16 +98,44 @@ World::World(unsigned w, unsigned h) : width(w), height(h)
     // Ustawienie pustego pola na każdej pozycji
     for (int i = 0; i < w; i++) {
         for (int j = 0; j < h; j++) {
-            entitiesField[i][j] = NULL;
+            entitiesField[i][j] = nullptr;
         }
     }
 
     // Wezwanie lookupu
     entitiesList = new Entities(w * h);
     
-	Human* human = new Human(this, 0, 0, 0);
-	entitiesList->add(human);
-	entitiesField[0][0] = human;
+	this->placeRandom(new Human(this));
+
+    this->placeRandom(new Antelope(this));
+    this->placeRandom(new Antelope(this));
+
+    this->placeRandom(new Wolf(this));
+    this->placeRandom(new Wolf(this));
+    
+    this->placeRandom(new Turtle(this));
+    this->placeRandom(new Turtle(this));
+
+	this->placeRandom(new Sheep(this));
+	this->placeRandom(new Sheep(this));
+    
+    this->placeRandom(new Fox(this));
+    this->placeRandom(new Fox(this));
+
+    this->placeRandom(new Guarana(this));
+    this->placeRandom(new Guarana(this));
+    
+    this->placeRandom(new Grass(this));
+    this->placeRandom(new Grass(this));
+    
+    this->placeRandom(new Hogweed(this));
+    this->placeRandom(new Hogweed(this));
+    
+    this->placeRandom(new Dandelion(this));
+    this->placeRandom(new Dandelion(this));
+
+    this->placeRandom(new Belladonna(this));
+    this->placeRandom(new Belladonna(this));
 }
 
 
@@ -190,9 +217,14 @@ void World::makeTurn()
         humanRegeneration--;
     }
 
-    while (current != NULL) {
+    while (current != nullptr) {
         // Nowo narodzone organizmy się nie ruszają
-        current->entity->action();
+        if (current->entity->getAge() == 0) {
+			current->entity->setAge(current->entity->getAge() + 1);
+        }
+        else {
+            current->entity->action();
+        }
         current = current->next;
     }
     turnNumber++;
@@ -202,26 +234,12 @@ void World::placeRandom(Organism* entity)
 {
     // Ta funkcja spróbuje położyć organizm na pustym miejscu
     // Jeżeli wybrane miejsce będzie zajęte to organism się nie stworzy
-    int newPosition[2];
-    newPosition[0] = rand() % getWidth();
-    newPosition[1] = rand() % getHeight();
-
-    if (entitiesField[newPosition[0]][newPosition[1]] == NULL) {
-        // Jeżeli się udało
-        entity->setX(newPosition[0]);
-        entity->setY(newPosition[1]);
-        entitiesField[newPosition[0]][newPosition[1]] = entity;
-        entitiesList->add(entity);
-    }
-    else {
-        // Jeżeli się nie udało
-        delete entity;
-    }
-}
-
-void World::saveWorld()
-{
-    
+    do {
+		entity->setX(rand() % getWidth());
+		entity->setY(rand() % getHeight());
+	} while (entitiesField[entity->getX()][entity->getY()] != nullptr);
+	entitiesField[entity->getX()][entity->getY()] = entity;
+	entitiesList->add(entity);
 }
 
 World::~World()

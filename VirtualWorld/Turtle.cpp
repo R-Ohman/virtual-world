@@ -1,20 +1,18 @@
 #include "Turtle.h"
 
-Turtle::Turtle(World* currentWorld, int posX, int posY, int age, bool newBorn)
+Turtle::Turtle(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
+	: Animal(currentWorld, 2, 1, posX, posY, age)
 {
 }
 
 void Turtle::draw()
 {
-}
-
-void Turtle::action()
-{
+    printf(" T ");
 }
 
 string Turtle::getName()
 {
-    return string();
+    return "Turtle";
 }
 
 bool Turtle::repulsedAttack(Organism* entity)
@@ -24,7 +22,7 @@ bool Turtle::repulsedAttack(Organism* entity)
 
 Organism* Turtle::createClone(unsigned x, unsigned y)
 {
-    return nullptr;
+    return new Turtle(world, x, y);
 }
 
 Turtle::~Turtle()

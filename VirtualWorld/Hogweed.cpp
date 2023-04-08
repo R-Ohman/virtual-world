@@ -1,25 +1,23 @@
 #include "Hogweed.h"
 
-Hogweed::Hogweed(World* currentWorld, int posX, int posY, int age, bool newBorn)
+Hogweed::Hogweed(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
+	: Plant(currentWorld, 10, posX, posY, age)
 {
 }
 
 void Hogweed::draw()
 {
-}
-
-void Hogweed::action()
-{
+    printf("(H)");
 }
 
 string Hogweed::getName()
 {
-    return string();
+    return "Hogweed";
 }
 
 Organism* Hogweed::createClone(unsigned x, unsigned y)
 {
-    return nullptr;
+    return new Hogweed(world, x, y);
 }
 
 Hogweed::~Hogweed()

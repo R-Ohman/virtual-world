@@ -1,5 +1,7 @@
-﻿#ifndef Animal_h
-#define Animal_h
+﻿#pragma once
+#ifndef _ANIMAL_H_
+#define _ANIMAL_H_
+
 class Organism;
 #include <iostream>
 #include <string>
@@ -11,8 +13,8 @@ using std::string;
 class Animal : public Organism {
 public:
     Animal() = default;
-    Animal(World* world, unsigned strength, unsigned initiative, unsigned posX, unsigned posY, unsigned age);
-    bool doSpeciesMatch(Organism& entity);
+    Animal(World* world, unsigned strength, unsigned initiative, unsigned posX, unsigned posY, unsigned age = 0);
+    bool sameSpecies(Organism& entity);
     void breed();
     std::string getName() override = 0;         // Każde zwierzę ma inną nazwę
     void draw() override = 0;                   // Każde zwierzę jest inaczej oznaczane

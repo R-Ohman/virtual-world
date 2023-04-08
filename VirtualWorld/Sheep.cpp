@@ -1,21 +1,23 @@
 #include "Sheep.h"
 
-Sheep::Sheep(World* currentWorld, int posX, int posY, int age, bool newBorn)
+Sheep::Sheep(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
+	: Animal(currentWorld, 4, 4, posX, posY, age)
 {
 }
 
 void Sheep::draw()
 {
+	printf(" S ");
 }
 
 string Sheep::getName()
 {
-    return string();
+	return "Sheep";
 }
 
 Organism* Sheep::createClone(unsigned x, unsigned y)
 {
-    return nullptr;
+	return new Sheep(world, x, y);
 }
 
 Sheep::~Sheep()

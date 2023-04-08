@@ -1,5 +1,6 @@
-#ifndef Turtle_h
-#define Turtle_h
+#pragma once
+#ifndef _TURTLE_H_
+#define _TURTLE_H_
 
 #include <stdio.h>
 #include "Animal.h"
@@ -7,9 +8,8 @@
 class Turtle : public Animal {
 public:
     Turtle() = default;
-    Turtle(World* currentWorld, int posX, int posY, int age, bool newBorn);
+    Turtle(World* currentWorld, unsigned posX = 0, unsigned posY = 0, unsigned age = 0);
     void draw() override;
-    void action() override;
     string getName() override;
     bool repulsedAttack(Organism* entity) override;
     Organism* createClone(unsigned x, unsigned y) override;

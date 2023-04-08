@@ -1,7 +1,6 @@
-﻿#ifndef Antelope_h
-#define Antelope_h
-
-#include "Animal.h"
+﻿#pragma once
+#ifndef _ANTELOPE_H_
+#define _ANTELOPE_H_
 
 #include <stdio.h>
 #include "Animal.h"
@@ -10,11 +9,9 @@
 class Antelope : public Animal {
 public:
     Antelope() = default;
-    Antelope(World* currentWorld, int posX, int posY, int age, bool newBorn);
-    int* pathFindNewField() override;
+    Antelope(World* currentWorld, unsigned posX = 0, unsigned posY = 0, unsigned age = 0);
     void draw() override;
     string getName() override;
-    void collision(Organism* collidingEntity) override;
     Organism* createClone(unsigned x, unsigned y) override;
     ~Antelope() override;
 };

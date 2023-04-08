@@ -1,9 +1,11 @@
-﻿#ifndef World_h
-#define World_h
+﻿#pragma once
+#ifndef _WORLD_H_
+#define _WORLD_H_
 
 #include "Organism.h"     // Organizm
 
 #include "Animal.h"       // Zwierzę
+
 #include "Human.h"        // Człowiek
 #include "Sheep.h"        // Owca
 #include "Wolf.h"         // Wilk
@@ -79,7 +81,7 @@ public:
     void placeRandom(Organism* entity);
     //void placeSpecific(Organism* entity, int axisX, int axisY);
 
-    void saveWorld();
+    //void saveWorld();
     //World loadWorld();
 
     // Organizmy

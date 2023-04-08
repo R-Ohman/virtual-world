@@ -1,21 +1,23 @@
 #include "Belladonna.h"
 
-Belladonna::Belladonna(World* currentWorld, int posX, int posY, int age, bool newBorn)
+Belladonna::Belladonna(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
+	: Plant(currentWorld, 99, posX, posY, age)
 {
 }
 
 void Belladonna::draw()
 {
+    printf("(B)");
 }
 
 string Belladonna::getName()
 {
-    return string();
+    return "Belladonna";
 }
 
 Organism* Belladonna::createClone(unsigned x, unsigned y)
 {
-    return nullptr;
+    return new Belladonna(world, x, y);
 }
 
 Belladonna::~Belladonna()

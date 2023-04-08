@@ -1,21 +1,23 @@
 #include "Wolf.h"
 
-Wolf::Wolf(World* currentWorld, int posX, int posY, int age, bool newBorn)
+Wolf::Wolf(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
+	: Animal(currentWorld, 9, 5, posX, posY, age)
 {
 }
 
 void Wolf::draw()
 {
+    printf(" W ");
 }
 
 string Wolf::getName()
 {
-    return string();
+    return "Wolf";
 }
 
 Organism* Wolf::createClone(unsigned x, unsigned y)
 {
-    return nullptr;
+    return new Wolf(world, x, y);
 }
 
 Wolf::~Wolf()

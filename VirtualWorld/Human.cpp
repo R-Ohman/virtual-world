@@ -1,6 +1,7 @@
 #include "Human.h"
 
-Human::Human(World* world, unsigned posX, unsigned posY, unsigned age) : Animal(world, 5, 4, posX, posY, age)
+Human::Human(World* world, unsigned posX, unsigned posY, unsigned age)
+	: Animal(world, 5, 4, posX, posY, age)
 {
 }
 
@@ -19,19 +20,19 @@ void Human::action()
 	printf("Human position(%d, %d)\n", position[0], position[1]);
 	while (true) {
 		userMove = getchar();
-		if (userMove == 72 && *posX > 0) {
+		if (userMove == 'a' && *posX > 0) {
 			(*posX)--;
 			break;
 		}
-		else if (userMove == 80 && *posX < world->getHeight() - 1) {
+		else if (userMove == 'd' && *posX < world->getWidth() - 1) {
 			(*posX)++;
 			break;
 		}
-		else if (userMove == 75 && *posY > 0) {
+		else if (userMove == 'w' && *posY > 0) {
 			(*posY)--;
 			break;
 		}
-		else if (userMove == 77 && *posY < world->getWidth() - 1) {
+		else if (userMove == 's' && *posY < world->getHeight() - 1) {
 			(*posY)++;
 			break;
 		}
@@ -51,7 +52,7 @@ void Human::action()
 
 string Human::getName()
 {
-	return string();
+	return "Human";
 }
 
 void Human::specialAbility()
@@ -60,7 +61,7 @@ void Human::specialAbility()
 
 Organism* Human::createClone(unsigned x, unsigned y)
 {
-	return nullptr;
+	return new Human(world, x, y);
 }
 
 Human::~Human()

@@ -1,11 +1,13 @@
 #include "Dandelion.h"
 
-Dandelion::Dandelion(World* currentWorld, int posX, int posY, int age, bool newBorn)
+Dandelion::Dandelion(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
+	: Plant(currentWorld, 0, posX, posY, age)
 {
 }
 
 void Dandelion::draw()
 {
+    printf("(D)");
 }
 
 void Dandelion::action()
@@ -14,12 +16,12 @@ void Dandelion::action()
 
 string Dandelion::getName()
 {
-    return string();
+    return "Dandelion";
 }
 
 Organism* Dandelion::createClone(unsigned x, unsigned y)
 {
-    return nullptr;
+    return new Dandelion(world, x, y);
 }
 
 Dandelion::~Dandelion()
