@@ -1,9 +1,9 @@
 #include "Human.h"
 
-Human::Human(World* world, unsigned posX, unsigned posY, unsigned age)
+Human::Human(World* world, unsigned posX, unsigned posY, unsigned age, unsigned regeneration)
 	: Animal(world, 5, 4, posX, posY, age)
 {
-	humanRegeneration = 5;
+	humanRegeneration = regeneration;
 }
 
 void Human::draw()
@@ -82,6 +82,11 @@ void Human::action()
 	}
 }
 
+int Human::getRegeneration()
+{
+	return humanRegeneration;
+}
+
 string Human::getName()
 {
 	return "Human";
@@ -90,11 +95,11 @@ string Human::getName()
 void Human::specialAbility()
 {
 	unsigned* posX = &this->position[0], *posY = &this->position[1];
-	std::cout << "MURDER:" << getName() << " at (" << *posX << ", " << *posY << ") kills all his neighbours" << std::endl;
 	for (int i = -1; i < 2; i += 2) {
 		if (*posX + i >= 0 && *posX + i < world->getWidth()) {
 			if (world->entitiesField[*posX + i][*posY] != nullptr) {
-				std::cout << "\t" << getName() << " murdered " << world->entitiesField[*posX + i][*posY]->getName() << " (" << *posX + i << ", " << *posY << ")" << std::endl;
+				std::cout << "MURDER: " << getName() << " (" << *posX << ", " << *posY << ") ";
+				std::cout << "murdered " << world->entitiesField[*posX + i][*posY]->getName() << " (" << *posX + i << ", " << *posY << ")\n";
 				world->entitiesList->remove(world->entitiesField[*posX + i][*posY]);
 				world->entitiesField[*posX + i][*posY] = nullptr;
 			}
@@ -102,7 +107,8 @@ void Human::specialAbility()
 
 		if (*posY + i >= 0 && *posY + i < world->getHeight()) {
 			if (world->entitiesField[*posX][*posY + i] != nullptr) {
-				std::cout << "\t" << getName() << " murdered " << world->entitiesField[*posX][*posY + i]->getName() << " (" << *posX << ", " << *posY + i << ")" << std::endl;
+				std::cout << "MURDER: " << getName() << " (" << *posX << ", " << *posY << ") ";
+				std::cout << "murdered " << world->entitiesField[*posX + i][*posY]->getName() << " (" << *posX + i << ", " << *posY << ")\n";
 				world->entitiesList->remove(world->entitiesField[*posX][*posY + i]);
 				world->entitiesField[*posX][*posY + i] = nullptr;
 			}
@@ -117,4 +123,5 @@ Organism* Human::createClone(unsigned x, unsigned y)
 
 Human::~Human()
 {
+	world->~World();
 }

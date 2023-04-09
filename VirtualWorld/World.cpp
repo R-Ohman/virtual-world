@@ -193,7 +193,7 @@ World::World(std::ifstream& loadFile)
     Organism* newEntity;
     std::string className;
     
-    int posX, posY, age;
+    int posX, posY, age, regeneration;
     while (loadFile >> className) {
         loadFile >> posX >> posY >> age;
         if (className == "Antelope") {
@@ -218,7 +218,8 @@ World::World(std::ifstream& loadFile)
 			new Hogweed(this, posX, posY, age);
 		}
 		else if (className == "Human") {
-			new Human(this, posX, posY, age);
+			loadFile >> regeneration;
+			new Human(this, posX, posY, age, regeneration);
 		}
 		else if (className == "Sheep") {
 			new Sheep(this, posX, posY, age);
@@ -370,6 +371,9 @@ void World::saveWorld()
         Node* current = entitiesList->head->next;
         while (current != nullptr) {
             fileBackup << current->entity->getName() << " " << current->entity->getX() << " " << current->entity->getY() << " " << current->entity->getAge() << "\n";
+            if (dynamic_cast<Human*>(current->entity) != nullptr) {
+                fileBackup << dynamic_cast<Human*>(current->entity)->getRegeneration() << "\n";
+            }
             current = current->next;
         }
         fileBackup.close();
@@ -379,12 +383,17 @@ void World::saveWorld()
 
 World::~World()
 {
-	for (unsigned x = 0; x < width; x++) {
-		for (unsigned y = 0; y < height; y++) {
-			if (entitiesField[x][y] != nullptr) {
-				delete entitiesField[x][y];
-			}
-		}
+    try {
+        for (unsigned x = 0; x < width; x++) {
+            for (unsigned y = 0; y < height; y++) {
+                if (entitiesField[x][y] != nullptr) {
+                    delete entitiesField[x][y];
+                }
+            }
+        }
+        delete entitiesList;
+    }
+	catch (std::exception& e) {
+        printf("Error while deleting the world.\n");
 	}
-	delete entitiesList;
 }

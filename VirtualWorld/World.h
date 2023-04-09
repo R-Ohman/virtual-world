@@ -59,6 +59,7 @@ private:
     unsigned turnNumber;
     //bool gameStatus;
 public:
+	World() = default;
     World(unsigned w, unsigned h);                // Konstruktor nowego świata defaultowego
     World(std::ifstream& loadFile);              // Konstruktor świata zapisanego w pliku
 
@@ -69,6 +70,8 @@ public:
     //void setGameStatus();
     //void setHumanCooldown(int i);
     //void setTurn(int turn);
+
+    void game();
 
     bool gameContinues();
 
