@@ -12,12 +12,10 @@ void Plant::action()
 	if (freeField != nullptr) {
 		// szansa 20% na rozmnozenie
 		if (rand() % 100 < 20) {
-			std::cout << "Plant " << this->getName() << " is reproducing to (" << freeField[0] << ", " << freeField[1] << ")." << std::endl;
+			std::cout << "REPRODUCING: " << this->getName() << "(" << position[0] << ", " << position[1] << ")";
+			std::cout << " is reproducing to (" << freeField[0] << ", " << freeField[1] << ").\n";
 			createClone(freeField[0], freeField[1]);
 		}
-	}
-	else {
-		printf("No free field for plant to reproduce.\n");
 	}
 }
 

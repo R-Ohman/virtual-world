@@ -7,7 +7,10 @@ Wolf::Wolf(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
 
 void Wolf::draw()
 {
-    printf(" W ");
+	string name = "W";
+	name += (strength / 10 + '0');
+	name += (strength % 10 + '0');
+	std::cout << name;
 }
 
 string Wolf::getName()

@@ -11,6 +11,8 @@
 using std::string;
 
 class Human : public Animal {
+private:
+    int humanRegeneration;
 public:
     Human() = default;
     Human(World* world, unsigned posX = -1, unsigned posY = -1, unsigned age = 0);

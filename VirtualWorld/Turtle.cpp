@@ -7,7 +7,10 @@ Turtle::Turtle(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
 
 void Turtle::draw()
 {
-    printf(" T ");
+    string name = "T";
+    name += (strength / 10 + '0');
+    name += (strength % 10 + '0');
+    std::cout << name;
 }
 
 string Turtle::getName()
@@ -17,7 +20,16 @@ string Turtle::getName()
 
 bool Turtle::repulsedAttack(Organism* entity)
 {
-    return false;
+	return entity->getStrength() < 5;
+}
+
+void Turtle::action()
+{
+    this->age++;
+    if (rand() % 100 < 25) {
+        this->age--;
+        Animal::action();
+    }
 }
 
 Organism* Turtle::createClone(unsigned x, unsigned y)

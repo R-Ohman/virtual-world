@@ -57,15 +57,13 @@ class World {
 private:
     unsigned width, height;
     unsigned turnNumber;
-    int humanRegeneration;
     //bool gameStatus;
 public:
-    World(unsigned w, unsigned h);                                // Konstruktor nowego świata defaultowego
-    //World(unsigned w, unsigned h, std::ifstream& loadFile);       // Konstruktor świata zapisanego w pliku
+    World(unsigned w, unsigned h);                // Konstruktor nowego świata defaultowego
+    World(std::ifstream& loadFile);              // Konstruktor świata zapisanego w pliku
 
     int getWidth();
     int getHeight();
-    int getHumanRegeneration();
     int getTurnNumber();
     //bool getGameStatus();
     //void setGameStatus();
@@ -80,9 +78,8 @@ public:
     void makeTurn();
     
     void placeRandom(Organism* entity);
-    //void placeSpecific(Organism* entity, int axisX, int axisY);
 
-    //void saveWorld();
+    void saveWorld();
     //World loadWorld();
 
     // Organizmy

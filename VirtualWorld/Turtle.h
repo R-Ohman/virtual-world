@@ -12,6 +12,7 @@ public:
     void draw() override;
     string getName() override;
     bool repulsedAttack(Organism* entity) override;
+    void action() override;
     Organism* createClone(unsigned x, unsigned y) override;
     ~Turtle() override;
 };

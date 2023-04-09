@@ -7,7 +7,10 @@ Sheep::Sheep(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
 
 void Sheep::draw()
 {
-	printf(" S ");
+	string name = "S";
+	name += (strength / 10 + '0');
+	name += (strength % 10 + '0');
+	std::cout << name;
 }
 
 string Sheep::getName()

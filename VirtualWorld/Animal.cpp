@@ -16,7 +16,7 @@ void Animal::breed()
 	unsigned* freePosition = getUnoccupiedNeighboringPosition();
 	if (freePosition != nullptr) {
 		// Utworzenie nowego organizmu
-		printf("Breeding %s at (%d,%d)\n", this->getName().c_str(), freePosition[0], freePosition[1]);
+		std::cout << "\tBREEDING: " << this->getName() << "(" << freePosition[0] << ", " << freePosition[1] << ")\n";
         createClone(freePosition[0], freePosition[1]);
 		// Zwolnienie pamięci
 		delete[] freePosition;
@@ -30,6 +30,7 @@ void Animal::action()
     
 	unsigned* newPosition = getNeighboringPosition();
     
+    std::cout << "MOVING:" << this->getName() << " from (" << getX() << ", " << getY() << ") to (" << newPosition[0] << ", " << newPosition[1] << ").\n";
     if (world->entitiesField[newPosition[0]][newPosition[1]] != nullptr) {
 		collision(world->entitiesField[newPosition[0]][newPosition[1]]);
     }
@@ -47,7 +48,7 @@ void Animal::collision(Organism* collidingEntity)
     if (sameSpecies(*collidingEntity)) {
         
         // Kolizja z tym samym organizmem
-        std::cout << "Colliding entities: [MATCH] " << this->getName() << " (" << getX() << "," << getY() << "), ";
+        std::cout << "COLLISION:[BREED] " << this->getName() << " (" << getX() << "," << getY() << "), ";
         std::cout << collidingEntity->getName() << " (" << collidingEntity->getX() << "," << collidingEntity->getY() << ").\n";
         // Rozmnożenie się
         breed();
@@ -56,28 +57,33 @@ void Animal::collision(Organism* collidingEntity)
     else {
         // Sprawdzenie czy przypadkiem żółw nie odparł kolizji
         if (collidingEntity->repulsedAttack(this)) {
-            std::cout << "Colliding entities: [REFLECT] " << this->getName() << " (" << getX() << "," << getY() << "), ";
+            std::cout << "COLLISION:[REFLECT] " << this->getName() << " (" << getX() << "," << getY() << "), ";
             std::cout << collidingEntity->getName() << " (" << collidingEntity->getX() << "," << collidingEntity->getY() << ").\n";
             return;
         }
 
         // Walka dwóch organizmów
-        std::cout << "Colliding entities: [FIGHT] " << this->getName() << " (" << getX() << "," << getY() << "), ";
+        std::cout << "COLLISION:[FIGHT] " << this->getName() << " (" << getX() << "," << getY() << "), ";
         std::cout << collidingEntity->getName() << " (" << collidingEntity->getX() << "," << collidingEntity->getY() << ").\n";
         // Jeżeli siła jednego zwierzęcia jest wyższa od siły drugiego oraz jeżeli drugim organizmem nie jest HogWeed
+        if (dynamic_cast<Hogweed*>(collidingEntity) || dynamic_cast<Belladonna*>(collidingEntity)) {
+			// Zwierze, które zjadło HogWeed lub Belladonna umiera
+			std::cout << "\t" << this->getName() << " ate " << collidingEntity->getName() << " and died.\n";
+			world->entitiesField[getX()][getY()] = nullptr;
+            world->entitiesField[collidingEntity->getX()][collidingEntity->getY()] = nullptr;
+            world->entitiesList->remove(collidingEntity);
+            world->entitiesList->remove(this);
+            return;
+        }
         
         if (strength > collidingEntity->getStrength() ||
 			strength == collidingEntity->getStrength() && this->age > collidingEntity->getAge() ) {
             // Wygrana
-            std::cout << "Victory of " << this->getName() << "\n";
+            std::cout << "\tVictory of " << this->getName() << "\n";
             // Jeżeli to była guarana to zwiększamy siłę this organizmu
             if (typeid(*collidingEntity).hash_code() == typeid(Guarana).hash_code()) {
-                std::cout << this->getName() << " (" << getX() << "," << getY() << ") strength increased (+3).\n";
+                std::cout << "\t\t" << this->getName() << " (" << getX() << "," << getY() << ") strength increased (+3).\n";
                 strength += 3;
-            }
-            if (collidingEntity->getName() == "Human") {
-                // GAME OVER
-                world->entitiesList->setSize(unsigned(-1)/2);
             }
             // Usunięcie organizmu z planszy
             world->entitiesField[getX()][getY()] = nullptr;
@@ -89,11 +95,7 @@ void Animal::collision(Organism* collidingEntity)
         else {
             // W przeciwnym wypadku przegrana
             // HogWeed to wilcze jagody, zjedzenie ich pokonuje każdy organizm
-            std::cout << "Defeat of " << this->getName() << ".\n";
-            if (this->getName() == "Human") {
-                // GAME OVER
-                world->entitiesList->setSize(unsigned(-1) / 2);
-            }
+            std::cout << "\tDefeat of " << this->getName() << ".\n";
             world->entitiesField[getX()][getY()] = nullptr;
             world->entitiesList->remove(this);
         }         

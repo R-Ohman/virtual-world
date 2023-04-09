@@ -11,6 +11,7 @@ public:
     Hogweed(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0);
     void draw() override;
     string getName() override;
+    void action() override;
     Organism* createClone(unsigned x, unsigned y) override;
     ~Hogweed() override;
 };

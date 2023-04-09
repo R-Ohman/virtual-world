@@ -7,11 +7,15 @@ Dandelion::Dandelion(World* currentWorld, unsigned posX, unsigned posY, unsigned
 
 void Dandelion::draw()
 {
-    printf("(D)");
+    printf("(d)");
 }
 
 void Dandelion::action()
 {
+	for (int i = 0; i < 3; i++)
+	{
+		Plant::action();
+	}
 }
 
 string Dandelion::getName()

@@ -10,6 +10,7 @@ public:
     Fox() = default;
     Fox(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0);
     void draw() override;
+	void action() override;
     string getName() override;
     Organism* createClone(unsigned x, unsigned y) override;
     ~Fox() override;

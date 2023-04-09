@@ -1,4 +1,5 @@
 ﻿#include "World.h"
+#include <windows.h>
 
 Entities::Entities(unsigned allocatedSize) : allocatedSize(allocatedSize), size(0)
 {
@@ -63,7 +64,7 @@ void Entities::add(Organism* entity)
     // Zwiększenie currentSize
     this->size++;
 
-	std::cout << "Add entity to lookup: " << typeid(*entity).name() << ". New size : " << size << " .\n";
+	//std::cout << "Add entity to lookup: " << typeid(*entity).name() << ". New size : " << size << " .\n";
 
 }
 
@@ -90,8 +91,14 @@ void Entities::remove(Organism* entity)
 
         // Уменьшение размера списка
         this->size--;
-        std::cout << "Remove entity from lookup: " << typeid(*entity).name() << ". New size : " << size << " .\n";
+        //std::cout << "Remove entity from lookup: " << typeid(*entity).name() << ". New size : " << size << " .\n";
         // Освобождение памяти, выделенной под элемент списка
+        if (entity->getName() == "Human") {
+            // GAME OVER
+            this->size = unsigned(-1) / 2;
+			std::cout << "GAME OVER: Human died!\n";
+        }
+        
         delete entity;
     }
 }
@@ -102,7 +109,6 @@ Entities::~Entities()
 
 World::World(unsigned w, unsigned h) : width(w), height(h)
 {
-    humanRegeneration = 5;
 	turnNumber = 0;
     printf("World(%d,%d) initialized...\n", w, h);
     srand(time(NULL));
@@ -162,14 +168,73 @@ int World::getWidth()
     return this->width;
 }
 
+World::World(std::ifstream& loadFile)
+{
+    loadFile >> turnNumber >> width >> height;
+    printf("Saved world(%d,%d) initialized...\n", width, height);
+    srand(time(NULL));
+
+    // Zaalokowanie przestrzeni dla organizmów
+    entitiesField = new Organism **[width];
+    for (int i = 0; i < width; i++) {
+        entitiesField[i] = new Organism * [height];
+    }
+
+    // Ustawienie pustego pola na każdej pozycji
+    for (int i = 0; i < width; i++) {
+        for (int j = 0; j < height; j++) {
+            entitiesField[i][j] = NULL;
+        }
+    }
+
+    // Wezwanie lookupu
+    entitiesList = new Entities(width * height);
+
+    Organism* newEntity;
+    std::string className;
+    
+    int posX, posY, age;
+    while (loadFile >> className) {
+        loadFile >> posX >> posY >> age;
+        if (className == "Antelope") {
+			new Antelope(this, posX, posY, age);
+        }
+        else if (className == "Belladonna") {
+            new Belladonna(this, posX, posY, age);
+        }
+		else if (className == "Dandelion") {
+			new Dandelion(this, posX, posY, age);
+		}
+		else if (className == "Fox") {
+			new Fox(this, posX, posY, age);
+		}
+		else if (className == "Grass") {
+			new Grass(this, posX, posY, age);
+		}
+		else if (className == "Guarana") {
+			new Guarana(this, posX, posY, age);
+		}
+		else if (className == "Hogweed") {
+			new Hogweed(this, posX, posY, age);
+		}
+		else if (className == "Human") {
+			new Human(this, posX, posY, age);
+		}
+		else if (className == "Sheep") {
+			new Sheep(this, posX, posY, age);
+		}
+		else if (className == "Turtle") {
+			new Turtle(this, posX, posY, age);
+		}
+		else if (className == "Wolf") {
+			new Wolf(this, posX, posY, age);
+		}
+    }
+}
+
 int World::getHeight()
 {
     return this->height;
-}
-
-int World::getHumanRegeneration()
-{
-    return this->humanRegeneration;
 }
 
 int World::getTurnNumber()
@@ -184,11 +249,23 @@ bool World::gameContinues()
 
 void World::drawWorld()
 {
+    printf("\t\t\t\tFAQ\n");
+    printf("Organism\tDesignation\tInitiative\t\tFeature\n");
+	printf("Antelope\tA\t\t4\t\tDouble move, 50%% to escape from fight\n");
+    printf("Fox\t\tF\t\t7\t\tDoesn't move to danger place\n");
+    printf("Human\t\tH\t\t4\t\tMoved by user\n");
+    printf("Sheep\t\tS\t\t7\n");
+    printf("Wolf\t\tW\t\t5\n");
+    printf("Belladonna\tB\t\t0\t\tThe animal that ate it, dies\n");
+    printf("Dandelion\td\t\t0\t\t3 attempts to spread\n");
+    printf("Grass\t\tg\t\t0\n");
+    printf("Guarana\t\tG\t\t0\t\tIncreases the strength of of the animal that has eaten it, by 3\n");
+    printf("Hogweed\t\tH\t\t0\t\tKills all animals in neighborhood\n");
     printf("Drawing world...\n");
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
     unsigned x, y, number = 0;
-    printf("Turn %d\n[xxx] ", turnNumber);
-
+    printf("\tTurn %d\n\t\t[xxx] ", turnNumber);
     for (x = 0; x < width; x++) {
         if (number <= 9) {
             printf("[00%d]", number);
@@ -202,6 +279,7 @@ void World::drawWorld()
     printf("\n");
     // Zakładam że liczby nie będą większe niz 99
     for (y = 0; y < height; y++) {
+        std::cout << "\t\t";
         if (number <= 9) {
             printf("[00%d] ", number);
         }
@@ -211,10 +289,30 @@ void World::drawWorld()
         number++;
 
         for (x = 0; x < width; x++) {
-             if (entitiesField[x][y] != NULL) {
+            if (x % 2) {
+                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
+            }
+            else {
+                SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+            }
+            
+             if (entitiesField[x][y] != nullptr) {
+                 // Czlowiek - bialy tekst
+                 if (dynamic_cast<Human*>(entitiesField[x][y]) != nullptr) {
+                     SetConsoleTextAttribute(hConsole, 15);
+                 }
+                 else if (dynamic_cast<Animal*>(entitiesField[x][y]) != nullptr) {
+					 // Zwierze - czerwony tekst
+                     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+                 }
+                 else {
+					 // Roslina - zielony tekst
+                     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+                 }
                 printf("[");
                 entitiesField[x][y]->draw();
                 printf("]");
+                SetConsoleTextAttribute(hConsole, 15);
             }
             else {
                 printf("[   ]");
@@ -222,7 +320,9 @@ void World::drawWorld()
         }
         printf("\n");
     }
-    printf("Legend :\n[A - Antelope][(B) - Belladonna][F - Fox]\n[(g) - Grass][(G) - Guarana][(H) - Hogweed]\n[H - Human][S - Sheep][(D) - Dandelion]\n[T - Turtle][W - Wolf]\n");
+    // Bialy tekst
+    SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+    printf("Legend :\n[Axx: X - first letter of animal's name, xx - its power][(A): A - first letter of plant's name]\n");
 }
 
 void World::makeTurn()
@@ -230,10 +330,6 @@ void World::makeTurn()
     printf("Processing turn %d...\n", turnNumber);
 
     Node* current = entitiesList->head->next;
-    // Obniżenie cooldownu specjalnej umiejętności
-    if (humanRegeneration > 0) {
-        humanRegeneration--;
-    }
 
     while (current != nullptr) {
         // Nowo narodzone organizmy się nie ruszają
@@ -260,7 +356,35 @@ void World::placeRandom(Organism* entity)
 	entitiesList->add(entity);
 }
 
+void World::saveWorld()
+{
+    std::ofstream fileBackup;
+    fileBackup.open("backupWorld.txt", std::ios::out);
+    if (!fileBackup) {
+        printf("Problems with opening the file. Couldn't save the world.\n");
+        return;
+    }
+    else {
+        fileBackup << turnNumber << "\n";
+        fileBackup << width << " " << height << "\n";
+        Node* current = entitiesList->head->next;
+        while (current != nullptr) {
+            fileBackup << current->entity->getName() << " " << current->entity->getX() << " " << current->entity->getY() << " " << current->entity->getAge() << "\n";
+            current = current->next;
+        }
+        fileBackup.close();
+        printf("State of the world was successfully saved to the file.\n");
+    }
+}
+
 World::~World()
 {
-    
+	for (unsigned x = 0; x < width; x++) {
+		for (unsigned y = 0; y < height; y++) {
+			if (entitiesField[x][y] != nullptr) {
+				delete entitiesField[x][y];
+			}
+		}
+	}
+	delete entitiesList;
 }

@@ -13,6 +13,8 @@ public:
     void draw() override;
     string getName() override;
     Organism* createClone(unsigned x, unsigned y) override;
+    void collision(Organism* collidingEntity) override;
+    unsigned* getNeighboringPosition() override;
     ~Antelope() override;
 };
 
