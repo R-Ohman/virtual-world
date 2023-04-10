@@ -1,6 +1,7 @@
 ﻿#include "GameVirtualWorld.h"
 
-int main() {
+int main()
+{
     GameVirtualWorld game;
 	game.start();
 	return 0;

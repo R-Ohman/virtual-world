@@ -1,76 +1,106 @@
 ﻿#include "GameVirtualWorld.h"
 
+
+void GameVirtualWorld::setOrganisms()
+{
+    world->placeRandom(new Human(world));
+
+    for (int i = 0; i < 2; i++)
+    {
+        world->placeRandom(new Antelope(world));
+
+        world->placeRandom(new Wolf(world));
+
+        world->placeRandom(new Turtle(world));
+
+        world->placeRandom(new Sheep(world));
+
+        world->placeRandom(new Fox(world));
+
+        world->placeRandom(new Guarana(world));
+
+        world->placeRandom(new Grass(world));
+
+        world->placeRandom(new Hogweed(world));
+
+        world->placeRandom(new Dandelion(world));
+
+        world->placeRandom(new Belladonna(world));
+    }    
+}
+
+
 void GameVirtualWorld::drawMenu()
 {
     system("cls");
-    printf("         | Ruslan Rabadanov 196634 |\n");
-    printf("         |       Keys to move      |\n");
-    printf("         |   w - up     s - down   |\n");
-    printf("         |   a - left   d - right  |\n");
-    printf("         |   r - special ability   |\n");
-    printf("         |   x - save the game     |\n");
-    printf("         |  - - - - - - - - - - -  |\n");
-    printf("         |   1 - Start new game    |\n");
-    printf("         |   2 - Load last save    |\n");
-    printf("         |   3 - Quit              |\n");
-    printf("         | - - - - - - - - - - - - |\n");
-    printf("         |   Choose the option : ");
+    printf("\t| Ruslan Rabadanov 196634 |\n");
+    printf("\t|  Press arrows to move   |\n");
+    printf("\t|   r - special ability   |\n");
+    printf("\t|   s - save the game     |\n");
+    printf("\t|  - - - - - - - - - - -  |\n");
+    printf("\t|   1 - Start new game    |\n");
+    printf("\t|   2 - Load last save    |\n");
+    printf("\t|   other - Quit          |\n");
+    printf("\t| - - - - - - - - - - - - |\n");
+    printf("\t|   Choose the option : ");
 }
 
 
 void GameVirtualWorld::game() {
     while (world->gameContinues()) {
-        char playerInput;
         system("cls");
         world->drawWorld();
         world->makeTurn();
-        // Jednocześnie służy to jako przerwa między narysowaniem kolejne tury
-        // oraz zapis i załadowanie świata
         printf("Any key to continue [x - save, q - exit]\n");
-        playerInput = getchar();
-        playerInput = getchar();
-        if (playerInput == 'x') {
+        
+        int playerInput = _getch();
+        if (playerInput == 's') {
             world->saveWorld();
-            playerInput = getchar();
+            playerInput = _getch();
         }
         else if (playerInput == 'q') {
             break;
         }
     }
-    // Koniec gry, pokaz świata
+    // Game over
     system("cls");
     world->drawWorld();
+    std::cout << "GAME OVER\n";
+    std::cout << "Press any key to exit\n";
+    _getch();
 }
+
 
 void GameVirtualWorld::start()
 {
+    // Draw start menu
 	this->drawMenu();
-    unsigned userOption = 0, playerInput, width, height;
+    
+    unsigned userOption = 0, width, height;
     std::cin >> userOption;
 
     if (userOption == 1) {
-        printf("         | New world size (w h): ");
+        printf("\t| New world size(w h) : ");
         std::cin >> width >> height;
-        // Konstruktor normalnego świata
         world = new World(width, height);
+		// Add organisms to the created world
+        this->setOrganisms();
     }
     else if (userOption == 2) {
         std::ifstream loadFile;
-        loadFile.open("backupWorld.txt", std::ios::in);
+        loadFile.open("worldState.txt", std::ios::in);
         if (!loadFile) {
             printf("There is no saved world.\n");
-            exit(1);
+            return;
         }
-        // Konstruktor zapisanego świata
         world = new World(loadFile);
     }
     else {
-        exit(1);
+        return;
     }
+    
+	// World is ready, start the game
     this->game();
-    std::cout << "GAME OVER\n";
-	std::cout << "Press any key to exit\n";
-	getchar();
 }
 
 GameVirtualWorld::~GameVirtualWorld()

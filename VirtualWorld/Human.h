@@ -2,27 +2,29 @@
 #ifndef _HUMAN_H_
 #define _HUMAN_H_
 
-#include <stdio.h>
-#include <string>
 #include <conio.h>
 #include "Animal.h"
-// Без этого будут ошибки в .cpp
 #include "World.h"
 using std::string;
 
 class Human : public Animal {
 private:
-    int humanRegeneration;
+    int humanRegeneration; // 1-5 - regeneration, 6-10 superpower is activated
+    
+protected:
+    void draw() const override;
+    void action() override;
+    void specialAbility();
+
+    std::string getName() const override;
+    Organism* createClone(unsigned x, unsigned y) const override;
+    
 public:
     Human() = default;
     Human(World* world, unsigned posX = -1, unsigned posY = -1, unsigned age = 0, unsigned regeneration = 5);
-    void draw() override;
-    void action() override;
-    int getRegeneration();
-    std::string getName() override;
-    void specialAbility();
-    Organism* createClone(unsigned x, unsigned y) override;
     ~Human();
+    
+    int getRegeneration();
 };
 
 #endif

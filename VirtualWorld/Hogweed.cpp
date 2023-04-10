@@ -1,38 +1,54 @@
 #include "Hogweed.h"
 #include "World.h"
 
+
 Hogweed::Hogweed(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
-	: Plant(currentWorld, 10, posX, posY, age)
+	: Plant(currentWorld, HOGWEED_STRENGTH, HOGWEED_INITIATIVE, posX, posY, age)
 {
 }
 
-void Hogweed::draw()
+
+void Hogweed::draw() const
 {
 	printf("(H)");
 }
 
-string Hogweed::getName()
+
+string Hogweed::getName() const
 {
 	return "Hogweed";
 }
 
+
 void Hogweed::action()
 {
-	unsigned* posX = &this->position[0], * posY = &this->position[1];
+	// Kill all animals in the neighborhood
+	unsigned* const posX = &this->position[0], * const posY = &this->position[1];	// Variables for better readability
+	
+	// First iteration - check the left and upper positions, second iteration - check the right and lower positions
 	for (int i = -1; i < 2; i += 2) {
+		
+		// Check if the neighboring position is in the bounds
 		if (*posX + i >= 0 && *posX + i < world->getWidth()) {
-			if (world->entitiesField[*posX + i][*posY] != nullptr && dynamic_cast<Animal*>(world->entitiesField[*posX + i][*posY]) != nullptr) {
+			// Check if the neighboring position is occupied by an animal
+			if (world->entitiesField[*posX + i][*posY] != nullptr && dynamic_cast<Animal*>(world->entitiesField[*posX + i][*posY]) != nullptr)
+			{
 				std::cout << "MURDER: " << getName() << " (" << *posX << ", " << *posY << ") ";
 				std::cout << "murdered " << world->entitiesField[*posX + i][*posY]->getName() << " (" << *posX + i << ", " << *posY << ")\n";
+				// Delete animal
 				world->entitiesList->remove(world->entitiesField[*posX + i][*posY]);
 				world->entitiesField[*posX + i][*posY] = nullptr;
 			}
 		}
 
+		// Check if the neighboring position is in the bounds
 		if (*posY + i >= 0 && *posY + i < world->getHeight()) {
-			if (world->entitiesField[*posX][*posY + i] != nullptr && dynamic_cast<Animal*>(world->entitiesField[*posX][*posY + i]) != nullptr) {
+			// Check if the neighboring position is occupied by an animal
+			if (world->entitiesField[*posX][*posY + i] != nullptr && dynamic_cast<Animal*>(world->entitiesField[*posX][*posY + i]) != nullptr)
+			{
 				std::cout << "MURDER: " << getName() << " (" << *posX << ", " << *posY << ") ";
-				std::cout << "murdered " << world->entitiesField[*posX + i][*posY]->getName() << " (" << *posX + i << ", " << *posY << ")\n";
+				std::cout << "murdered " << world->entitiesField[*posX][*posY + i]->getName() << " (" << *posX << ", " << *posY + i<< ")\n";
+				// Delete animal
 				world->entitiesList->remove(world->entitiesField[*posX][*posY + i]);
 				world->entitiesField[*posX][*posY + i] = nullptr;
 			}
@@ -42,10 +58,12 @@ void Hogweed::action()
 	Plant::action();
 }
 
-Organism* Hogweed::createClone(unsigned x, unsigned y)
+
+Organism* Hogweed::createClone(unsigned x, unsigned y) const
 {
 	return new Hogweed(world, x, y);
 }
+
 
 Hogweed::~Hogweed()
 {

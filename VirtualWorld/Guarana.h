@@ -2,18 +2,17 @@
 #ifndef _GUARANA_H_
 #define _GUARANA_H_
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string>
 #include "Plant.h"
 
 class Guarana : public Plant {
+protected:
+    void draw() const override;
+    string getName() const override;
+    Organism* createClone(unsigned x, unsigned y) const override;
+    
 public:
     Guarana() = default;
     Guarana(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0);
-    void draw() override;
-    string getName() override;
-    Organism* createClone(unsigned x, unsigned y) override;
     ~Guarana() override;
 };
 

@@ -2,43 +2,45 @@
 #ifndef _ORGANISM_H_
 #define _ORGANISM_H_
 
-class World;
 #include <iostream>
 #include <string>
+class World;
 using std::string;
 
 class Organism {
 protected:
-    World* world;                         // Świat w którym się znajduje organizm
-    unsigned strength;                           // Siła organizmu
-    unsigned initiative;                         // Inicjatywa organizmu
-    unsigned position[2];                        // Pozycja X oraz Y
-    unsigned age;                                // Wiek organizmu, ustalany z góry w konstruktorze
+	// Pointer to the world in which the organism is located
+    World* world;
+    unsigned strength, initiative, age;
+	// position[0] - x, position[1] - y
+    unsigned position[2];
+
+	// Constructor for child class objects
+    Organism(World* world, unsigned strength, unsigned initiative, unsigned posX = -1, unsigned posY = -1, unsigned age = 0);
+    
+    virtual Organism* createClone(unsigned x, unsigned y) const = 0;
+    virtual void collision(Organism* collidingEntity) {}
+    
 public:
 	Organism() = default;
-	Organism(World* world, unsigned strength, unsigned initiative, unsigned posX = -1, unsigned posY = -1, unsigned age = 0);
-    virtual unsigned* getNeighboringPosition();        // Znalezienie miejsca do poruszenia się
-    unsigned* getUnoccupiedNeighboringPosition();      // Znalezienie niezajętego miejsca do poruszenia się
+    
+    virtual unsigned* getNeighboringPosition() const;
+    unsigned* getUnoccupiedNeighboringPosition() const;
 
-    unsigned getStrength();
-    unsigned getInitiative();
+    unsigned getStrength() const;
+    unsigned getInitiative() const;
+    unsigned getX() const;
+    unsigned getY() const;
+    unsigned getAge() const;
+
     void setX(unsigned x);
     void setY(unsigned y);
-    unsigned getX();
-    unsigned getY();
-    unsigned getAge();
     void setAge(unsigned age);
 
-    virtual bool repulsedAttack(Organism* entity);               // Organizm żółw może odbijać ataki kierowane w jego stronę
-    virtual Organism* createClone(unsigned x, unsigned y) = 0;   // Rozmnażanie się organizmów
-
-    virtual std::string getName() = 0;
-    // rysowanie() → powoduje narysowanie symbolicznej reprezentacji organizmu
-    virtual void draw() = 0;
-    // akcja() → określa zac howanie organizmu w trakcie tury
     virtual void action() = 0;
-    // kolizja() → określa zachowanie organizmu w trakcie kontaktu/zderzenia z innym organizmem
-    virtual void collision(Organism* collidingEntity) {}
+    virtual std::string getName() const = 0;
+    virtual void draw() const = 0;
+    virtual bool repulsedAttack(Organism* entity) const;
     
     virtual ~Organism();
 };

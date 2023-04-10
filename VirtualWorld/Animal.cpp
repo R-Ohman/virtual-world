@@ -6,100 +6,107 @@ Animal::Animal(World* world, unsigned strength, unsigned initiative, unsigned po
 {
 }
 
-bool Animal::sameSpecies(Organism& entity)
+
+bool Animal::sameSpecies(const Organism& entity) const
 {
 	return this->getName() == entity.getName();
 }
 
-void Animal::breed()
+
+void Animal::breed() const
 {
+	// Create the same organism in the neighboring position
 	unsigned* freePosition = getUnoccupiedNeighboringPosition();
+
 	if (freePosition != nullptr) {
-		// Utworzenie nowego organizmu
 		std::cout << "\tBREEDING: " << this->getName() << "(" << freePosition[0] << ", " << freePosition[1] << ")\n";
-        createClone(freePosition[0], freePosition[1]);
+		createClone(freePosition[0], freePosition[1]);
 		// Zwolnienie pamięci
 		delete[] freePosition;
 	}
-    
 }
+
 
 void Animal::action()
 {
-    this->age++;
-    
+	this->age++;
+
 	unsigned* newPosition = getNeighboringPosition();
-    
-    std::cout << "MOVING:" << this->getName() << " from (" << getX() << ", " << getY() << ") to (" << newPosition[0] << ", " << newPosition[1] << ").\n";
-    if (world->entitiesField[newPosition[0]][newPosition[1]] != nullptr) {
+
+	std::cout << "MOVING:" << this->getName() << " from (" << getX() << ", " << getY() << ") to (" << newPosition[0] << ", " << newPosition[1] << ").\n";
+	if (world->entitiesField[newPosition[0]][newPosition[1]] != nullptr) {
 		collision(world->entitiesField[newPosition[0]][newPosition[1]]);
-    }
-    else {
+	}
+	else {
 		world->entitiesField[newPosition[0]][newPosition[1]] = this;
 		world->entitiesField[getX()][getY()] = nullptr;
 		position[0] = newPosition[0];
 		position[1] = newPosition[1];
-    }
+	}
 	delete[] newPosition;
 }
 
-void Animal::collision(Organism* collidingEntity)
-{             
-    if (sameSpecies(*collidingEntity)) {
-        
-        // Kolizja z tym samym organizmem
-        std::cout << "COLLISION:[BREED] " << this->getName() << " (" << getX() << "," << getY() << "), ";
-        std::cout << collidingEntity->getName() << " (" << collidingEntity->getX() << "," << collidingEntity->getY() << ").\n";
-        // Rozmnożenie się
-        breed();
-        return;
-    }
-    else {
-        // Sprawdzenie czy przypadkiem żółw nie odparł kolizji
-        if (collidingEntity->repulsedAttack(this)) {
-            std::cout << "COLLISION:[REFLECT] " << this->getName() << " (" << getX() << "," << getY() << "), ";
-            std::cout << collidingEntity->getName() << " (" << collidingEntity->getX() << "," << collidingEntity->getY() << ").\n";
-            return;
-        }
 
-        // Walka dwóch organizmów
-        std::cout << "COLLISION:[FIGHT] " << this->getName() << " (" << getX() << "," << getY() << "), ";
-        std::cout << collidingEntity->getName() << " (" << collidingEntity->getX() << "," << collidingEntity->getY() << ").\n";
-        // Jeżeli siła jednego zwierzęcia jest wyższa od siły drugiego oraz jeżeli drugim organizmem nie jest HogWeed
-        if (dynamic_cast<Hogweed*>(collidingEntity) || dynamic_cast<Belladonna*>(collidingEntity)) {
-			// Zwierze, które zjadło HogWeed lub Belladonna umiera
-			std::cout << "\t" << this->getName() << " ate " << collidingEntity->getName() << " and died.\n";
-			world->entitiesField[getX()][getY()] = nullptr;
-            world->entitiesField[collidingEntity->getX()][collidingEntity->getY()] = nullptr;
-            world->entitiesList->remove(collidingEntity);
-            world->entitiesList->remove(this);
-            return;
-        }
-        
-        if (strength > collidingEntity->getStrength() ||
-			strength == collidingEntity->getStrength() && this->age > collidingEntity->getAge() ) {
-            // Wygrana
-            std::cout << "\tVictory of " << this->getName() << "\n";
-            // Jeżeli to była guarana to zwiększamy siłę this organizmu
-            if (typeid(*collidingEntity).hash_code() == typeid(Guarana).hash_code()) {
-                std::cout << "\t\t" << this->getName() << " (" << getX() << "," << getY() << ") strength increased (+3).\n";
-                strength += 3;
-            }
-            // Usunięcie organizmu z planszy
-            world->entitiesField[getX()][getY()] = nullptr;
-            position[0] = collidingEntity->getX();
-            position[1] = collidingEntity->getY();
-            world->entitiesField[getX()][getY()] = this;
-            world->entitiesList->remove(collidingEntity);
-        }
-        else {
-            // W przeciwnym wypadku przegrana
-            // HogWeed to wilcze jagody, zjedzenie ich pokonuje każdy organizm
-            std::cout << "\tDefeat of " << this->getName() << ".\n";
-            world->entitiesField[getX()][getY()] = nullptr;
-            world->entitiesList->remove(this);
-        }         
-    }
+void Animal::collision(Organism* collidingEntity)
+{
+	if (sameSpecies(*collidingEntity)) {
+		// If the same species, then create a new organism
+		std::cout << "COLLISION:[BREED] " << this->getName() << " (" << getX() << "," << getY() << "), ";
+		std::cout << collidingEntity->getName() << " (" << collidingEntity->getX() << "," << collidingEntity->getY() << ").\n";
+
+		breed();
+		return;
+	}
+
+	if (collidingEntity->repulsedAttack(this)) {
+		std::cout << "COLLISION:[REFLECT] " << this->getName() << " (" << getX() << "," << getY() << "), ";
+		std::cout << collidingEntity->getName() << " (" << collidingEntity->getX() << "," << collidingEntity->getY() << ").\n";
+		return;
+	}
+
+	// Fight
+	std::cout << "COLLISION:[FIGHT] " << this->getName() << " (" << getX() << "," << getY() << "), ";
+	std::cout << collidingEntity->getName() << " (" << collidingEntity->getX() << "," << collidingEntity->getY() << ").\n";
+	
+	if (dynamic_cast<Hogweed*>(collidingEntity) || dynamic_cast<Belladonna*>(collidingEntity)) {
+		// Animal who eats Hogweed or Belladonna dies
+		std::cout << "\t" << this->getName() << " ate " << collidingEntity->getName() << " and died.\n";
+
+		// Delete both organisms (animal and eaten plant) from the world
+		world->entitiesField[getX()][getY()] = nullptr;
+		world->entitiesField[collidingEntity->getX()][collidingEntity->getY()] = nullptr;
+		world->entitiesList->remove(collidingEntity);
+		world->entitiesList->remove(this);
+		return;
+	}
+
+	// If current organism is stronger (or older) than the colliding one, then it wins
+	if (this->strength > collidingEntity->getStrength() ||
+		this->strength == collidingEntity->getStrength() && this->age > collidingEntity->getAge()
+		) {
+		std::cout << "\tVictory of " << this->getName() << "\n";
+		
+		if (dynamic_cast<Guarana*>(collidingEntity)) {
+			// Eating Guarana increases strength by 3
+			std::cout << "\t\t" << this->getName() << " (" << getX() << "," << getY() << ") strength increased (+3).\n";
+			this->strength += 3;
+		}
+		
+		// Delete animal from current position and move it to new position
+		world->entitiesField[getX()][getY()] = nullptr;
+		position[0] = collidingEntity->getX();
+		position[1] = collidingEntity->getY();
+		world->entitiesField[getX()][getY()] = this;
+
+		// Delete organism who lost the fight
+		world->entitiesList->remove(collidingEntity);
+		return;
+	}
+	
+	// Current animal loses the fight, so delete it from the world
+	std::cout << "\tDefeat of " << this->getName() << ".\n";
+	world->entitiesField[getX()][getY()] = nullptr;
+	world->entitiesList->remove(this);
 }
 
 

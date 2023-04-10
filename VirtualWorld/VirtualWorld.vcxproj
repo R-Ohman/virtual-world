@@ -158,6 +158,7 @@
     <ClInclude Include="Hogweed.h" />
     <ClInclude Include="Human.h" />
     <ClInclude Include="Organism.h" />
+    <ClInclude Include="Parameters.h" />
     <ClInclude Include="Plant.h" />
     <ClInclude Include="Sheep.h" />
     <ClInclude Include="Turtle.h" />
