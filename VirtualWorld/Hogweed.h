@@ -7,9 +7,9 @@
 class Hogweed : public Plant {
 protected:
     void draw() const override;
-    void action() override;
     string getName() const override;
     Organism* createClone(unsigned x, unsigned y) const override;
+    void action() override;
     
 public:
     Hogweed() = default;

@@ -23,9 +23,16 @@ void Turtle::draw() const
 }
 
 
-string Turtle::getName() const
+void Turtle::action()
 {
-    return "Turtle";
+	this->age++;
+
+	// Turtle has 25% chance to move
+	if (rand() % 100 < 25) {
+		Animal::action();
+		// Age has been increased twice, so decrease it
+		this->age--;
+	}
 }
 
 
@@ -36,16 +43,9 @@ bool Turtle::repulsedAttack(Organism* entity) const
 }
 
 
-void Turtle::action()
+string Turtle::getName() const
 {
-    this->age++;
-
-	// Turtle has 25% chance to move
-    if (rand() % 100 < 25) {
-        Animal::action();
-		// Age has been increased twice, so decrease it
-		this->age--;
-    }
+	return "Turtle";
 }
 
 

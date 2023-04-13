@@ -66,6 +66,7 @@ void Entities::add(Organism* entity)
 	this->size++;
 }
 
+
 void Entities::remove(Organism* entity)
 {
 	Node* current = head;
@@ -99,9 +100,11 @@ void Entities::remove(Organism* entity)
 	delete entity;
 }
 
+
 Entities::~Entities()
 {
 }
+
 
 World::World(unsigned w, unsigned h) : width(w), height(h), turnNumber(0)
 {
@@ -120,12 +123,6 @@ World::World(unsigned w, unsigned h) : width(w), height(h), turnNumber(0)
 	}
 
 	entitiesList = new Entities(width * height);
-}
-
-
-unsigned World::getWidth() const
-{
-	return this->width;
 }
 
 
@@ -196,6 +193,12 @@ World::World(std::ifstream& loadFile)
 }
 
 
+unsigned World::getWidth() const
+{
+	return this->width;
+}
+
+
 unsigned World::getHeight() const
 {
 	return this->height;
@@ -205,6 +208,20 @@ unsigned World::getHeight() const
 unsigned World::getTurnNumber() const
 {
 	return this->turnNumber;
+}
+
+
+void World::placeRandom(Organism* entity)
+{
+	// Place organism on random position
+	do {
+		// Generate random position while it's not empty
+		entity->setX(rand() % getWidth());
+		entity->setY(rand() % getHeight());
+	} while (entitiesField[entity->getX()][entity->getY()] != nullptr);
+
+	entitiesField[entity->getX()][entity->getY()] = entity;
+	entitiesList->add(entity);
 }
 
 
@@ -237,15 +254,12 @@ void World::drawHeader() const
 void World::drawWorld() const
 {
 	this->drawHeader();
-
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
-	
 
 	unsigned x, y, number = 0;
 
 	// Print the firts line with numbers
-	printf("\n\t\tTurn %d\n\t\t      ", turnNumber);
+	printf("\n\t\tTurn %d\n\t\t     ", turnNumber);
 	for (x = 0; x < width; x++) {
 		if (number <= 9) {
 			printf("[00%d]", number);
@@ -302,20 +316,19 @@ void World::drawWorld() const
 				printf("[");
 				entitiesField[x][y]->draw();
 				printf("]");
-
-				// White color
-				SetConsoleTextAttribute(hConsole, 15);
 			}
 			else {
 				printf("[   ]");
 			}
+			// White color
+			SetConsoleTextAttribute(hConsole, 15);
 		}
 		printf("\n");
 	}
 	
 	// White color
 	SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
-	printf("Legend :\n[Axx: X - first letter of animal's name, xx - its power][(A): A - first letter of plant's name]\n");
+	printf("\tLEGEND :\n\t[Axx: X - first letter of animal's name, xx - its power][(A): A - first letter of plant's name]\n");
 }
 
 
@@ -337,18 +350,6 @@ void World::makeTurn()
 	this->turnNumber++;
 }
 
-void World::placeRandom(Organism* entity)
-{
-	// Place organism on random position
-	do {
-		// Generate random position while it's not empty
-		entity->setX(rand() % getWidth());
-		entity->setY(rand() % getHeight());
-	} while (entitiesField[entity->getX()][entity->getY()] != nullptr);
-	
-	entitiesField[entity->getX()][entity->getY()] = entity;
-	entitiesList->add(entity);
-}
 
 void World::saveWorld()
 {

@@ -6,20 +6,24 @@ Belladonna::Belladonna(World* currentWorld, unsigned posX, unsigned posY, unsign
 {
 }
 
+
 void Belladonna::draw() const
 {
     printf("(B)");
 }
+
 
 string Belladonna::getName() const
 {
     return "Belladonna";
 }
 
+
 Organism* Belladonna::createClone(unsigned x, unsigned y) const
 {
     return new Belladonna(world, x, y);
 }
+
 
 Belladonna::~Belladonna()
 {

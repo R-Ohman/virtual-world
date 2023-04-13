@@ -38,39 +38,39 @@ void Human::action()
 	
 	unsigned newPosition[2] = { *posX, *posY };
 	printf("\nHuman position(%d, %d)\n", *posX, *posY);
-	printf("Move (arrows) or use special ability (r):\n");
+	printf("Move (arrows) or use special ability (%c):\n", ACTIVATE_SUPERPOWER_BUTTON);
 	
 	while (true) {
 		userMove = _getch();					 // Read the first byte (224)
 		if (userMove == 224) {
 			userMove = _getch();				// Read the second byte (arrow key)
-			if (userMove == 75 && *posX > 0) {								// Left arrow
+			if (userMove == LEFT_ARROW && *posX > 0) {
 				newPosition[0] -= 1;
 				break;
 			}
-			else if (userMove == 77 && *posX < world->getWidth() - 1) {		// Right arrow
+			else if (userMove == RIGHT_ARROW && *posX < world->getWidth() - 1) {
 				newPosition[0] += 1;
 				break;
 			}
-			else if (userMove == 72 && *posY > 0) {							// Up arrow
+			else if (userMove == UP_ARROW && *posY > 0) {
 				newPosition[1] -= 1;
 				break;
 			}
-			else if (userMove == 80 && *posY < world->getHeight() - 1) {	// Down arrow
+			else if (userMove == DOWN_ARROW && *posY < world->getHeight() - 1) {
 				newPosition[1] += 1;
 				break;
 			}
 		}
-		else if (userMove == 'r') {
+		else if (userMove == ACTIVATE_SUPERPOWER_BUTTON) {
 
 			if (humanRegeneration <= 0) {
 				// Regeneration time is over, activate superpower
 				printf("\tHuman's superpower is activated! Make a move.\n");
-				humanRegeneration = 10;
+				humanRegeneration = REGENERATION_TIME + SUPERPOWER_TIME;
 			}
-			else if (humanRegeneration > 5) {
+			else if (humanRegeneration > REGENERATION_TIME) {
 				printf("\tYou have already activated your superpower!\n");
-				printf("\tIt will be disactivated in %d turns.\n", humanRegeneration - 5);
+				printf("\tIt will be disactivated in %d turns.\n", humanRegeneration - REGENERATION_TIME);
 			}
 			else {
 				// It's the time of regeneration
@@ -85,7 +85,7 @@ void Human::action()
 	// Remove human from old position
 	world->entitiesField[*posX][*posY] = nullptr;
 	
-	if (humanRegeneration > 5) {
+	if (humanRegeneration > REGENERATION_TIME) {
 		// Superpower "holocaust", kill all naighbours
 		this->specialAbility();
 		
@@ -108,18 +108,6 @@ void Human::action()
 		*posY = newPosition[1];
 		world->entitiesField[*posX][*posY] = this;
 	}
-}
-
-
-int Human::getRegeneration()
-{
-	return this->humanRegeneration;
-}
-
-
-string Human::getName() const
-{
-	return "Human";
 }
 
 
@@ -160,13 +148,24 @@ void Human::specialAbility()
 }
 
 
+string Human::getName() const
+{
+	return "Human";
+}
+
+
 Organism* Human::createClone(unsigned x, unsigned y) const
 {
 	return new Human(world, x, y);
 }
 
 
+int Human::getRegeneration()
+{
+	return this->humanRegeneration;
+}
+
+
 Human::~Human()
 {
-	world->~World();
 }

@@ -5,7 +5,8 @@ void GameVirtualWorld::setOrganisms()
 {
     world->placeRandom(new Human(world));
 
-    for (int i = 0; i < 2; i++)
+	// Place organisms in groups of 10
+    for (int i = 0; i <= world->getWidth() * world->getHeight() / WORLD_SIZE_FOR_ORGANISMS_GROUP; i++)
     {
         world->placeRandom(new Antelope(world));
 
@@ -33,10 +34,11 @@ void GameVirtualWorld::setOrganisms()
 void GameVirtualWorld::drawMenu()
 {
     system("cls");
+    printf("\t|-------------------------|\n");
     printf("\t| Ruslan Rabadanov 196634 |\n");
     printf("\t|  Press arrows to move   |\n");
-    printf("\t|   r - special ability   |\n");
-    printf("\t|   s - save the game     |\n");
+    printf("\t|   %c - special ability   |\n", ACTIVATE_SUPERPOWER_BUTTON);
+    printf("\t|   %c - save the game     |\n", SAVE_WORLD_BUTTON);
     printf("\t|  - - - - - - - - - - -  |\n");
     printf("\t|   1 - Start new game    |\n");
     printf("\t|   2 - Load last save    |\n");
@@ -51,14 +53,14 @@ void GameVirtualWorld::game() {
         system("cls");
         world->drawWorld();
         world->makeTurn();
-        printf("Any key to continue [x - save, q - exit]\n");
+        printf("\nAny key to continue [%c - save, %c - exit]\n", SAVE_WORLD_BUTTON, EXIT_GAME_BUTTON);
         
         int playerInput = _getch();
-        if (playerInput == 's') {
+        if (playerInput == SAVE_WORLD_BUTTON) {
             world->saveWorld();
             playerInput = _getch();
         }
-        else if (playerInput == 'q') {
+        else if (playerInput == EXIT_GAME_BUTTON) {
             break;
         }
     }
@@ -81,7 +83,9 @@ void GameVirtualWorld::start()
 
     if (userOption == 1) {
         printf("\t| New world size(w h) : ");
-        std::cin >> width >> height;
+        do {
+            std::cin >> width >> height;
+		} while (width * height < ORGANISMS_NUMBER + 1);      // Minimum number of slots for organisms
         world = new World(width, height);
 		// Add organisms to the created world
         this->setOrganisms();

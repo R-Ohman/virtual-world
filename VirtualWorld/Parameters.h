@@ -26,6 +26,19 @@
 #define BELLADONNA_INITIATIVE	0
 #define HOGWEED_INITIATIVE		0
 
+#define REGENERATION_TIME	5
+#define SUPERPOWER_TIME		5
+#define LEFT_ARROW			75
+#define RIGHT_ARROW			77
+#define UP_ARROW			72
+#define DOWN_ARROW			80
+
+#define WORLD_SIZE_FOR_ORGANISMS_GROUP	80
+#define ORGANISMS_NUMBER				10
+#define ACTIVATE_SUPERPOWER_BUTTON		'r'
+#define SAVE_WORLD_BUTTON				's'
+#define EXIT_GAME_BUTTON				'q'
+
 #include "Organism.h"
 
 #include "Animal.h"

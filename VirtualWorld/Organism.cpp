@@ -85,18 +85,6 @@ unsigned Organism::getInitiative() const
 }
 
 
-void Organism::setX(unsigned x)
-{
-	this->position[0] = x;
-}
-
-
-void Organism::setY(unsigned y)
-{
-	this->position[1] = y;
-}
-
-
 unsigned Organism::getX() const
 {
 	return this->position[0];
@@ -112,6 +100,18 @@ unsigned Organism::getY() const
 unsigned Organism::getAge() const
 {
 	return this->age;
+}
+
+
+void Organism::setX(unsigned x)
+{
+	this->position[0] = x;
+}
+
+
+void Organism::setY(unsigned y)
+{
+	this->position[1] = y;
 }
 
 

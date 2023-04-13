@@ -20,6 +20,12 @@ string Hogweed::getName() const
 }
 
 
+Organism* Hogweed::createClone(unsigned x, unsigned y) const
+{
+	return new Hogweed(world, x, y);
+}
+
+
 void Hogweed::action()
 {
 	// Kill all animals in the neighborhood
@@ -56,12 +62,6 @@ void Hogweed::action()
 	}
 
 	Plant::action();
-}
-
-
-Organism* Hogweed::createClone(unsigned x, unsigned y) const
-{
-	return new Hogweed(world, x, y);
 }
 
 
