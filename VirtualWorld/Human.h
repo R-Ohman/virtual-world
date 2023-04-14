@@ -21,9 +21,10 @@ protected:
     
 public:
     Human() = default;
-    Human(World* world, unsigned posX = -1, unsigned posY = -1, unsigned age = 0, unsigned regeneration = 5);
+    Human(World* world, unsigned posX = -1, unsigned posY = -1, unsigned age = 0, unsigned regeneration = 5, unsigned strength = HUMAN_STRENGTH);
     ~Human();
     
+    void setStrength(unsigned strength);
     int getRegeneration();
 };
 

@@ -3,6 +3,7 @@
 #define _HOGWEED_H_
 
 #include "Plant.h"
+#include "Parameters.h"
 
 class Hogweed : public Plant {
 protected:
@@ -13,7 +14,7 @@ protected:
     
 public:
     Hogweed() = default;
-    Hogweed(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0);
+    Hogweed(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0, unsigned strength = HOGWEED_STRENGTH);
     ~Hogweed() override;
 };
 

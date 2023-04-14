@@ -3,6 +3,7 @@
 #define _BELLADONNA_H_
 
 #include "Plant.h"
+#include "Parameters.h"
 
 class Belladonna : public Plant {
 protected:
@@ -12,7 +13,7 @@ protected:
     
 public:
     Belladonna() = default;
-    Belladonna(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0);
+    Belladonna(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0, unsigned strength = BELLADONNA_STRENGTH);
     ~Belladonna() override;
 };
 

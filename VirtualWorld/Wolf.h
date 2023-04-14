@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include "Animal.h"
+#include "Parameters.h"
 
 class Wolf : public Animal {
 protected:
@@ -13,7 +14,7 @@ protected:
     
 public:
     Wolf() = default;
-    Wolf(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0);
+    Wolf(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0, unsigned strength = WOLF_STRENGTH);
     ~Wolf() override;
 };
 

@@ -1,8 +1,8 @@
 #include "Human.h"
 
 
-Human::Human(World* world, unsigned posX, unsigned posY, unsigned age, unsigned regeneration)
-	: Animal(world, HUMAN_STRENGTH, HUMAN_INITIATIVE, posX, posY, age)
+Human::Human(World* world, unsigned posX, unsigned posY, unsigned age, unsigned regeneration, unsigned strength)
+	: Animal(world, strength, HUMAN_INITIATIVE, posX, posY, age)
 {
 	this->humanRegeneration = regeneration;
 }
@@ -145,6 +145,11 @@ void Human::specialAbility()
 			}
 		}
 	}
+}
+
+void Human::setStrength(unsigned strength)
+{
+	this->strength = strength;
 }
 
 

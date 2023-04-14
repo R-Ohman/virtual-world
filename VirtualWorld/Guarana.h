@@ -3,6 +3,7 @@
 #define _GUARANA_H_
 
 #include "Plant.h"
+#include "Parameters.h"
 
 class Guarana : public Plant {
 protected:
@@ -12,7 +13,7 @@ protected:
     
 public:
     Guarana() = default;
-    Guarana(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0);
+    Guarana(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0, unsigned strength = GUARANA_STRENGTH);
     ~Guarana() override;
 };
 

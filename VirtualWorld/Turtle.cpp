@@ -1,8 +1,8 @@
 #include "Turtle.h"
 #include "Parameters.h"
 
-Turtle::Turtle(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
-	: Animal(currentWorld, TURTLE_STRENGTH, TURTLE_INITIATIVE, posX, posY, age)
+Turtle::Turtle(World* currentWorld, unsigned posX, unsigned posY, unsigned age, unsigned strength)
+	: Animal(currentWorld, strength, TURTLE_INITIATIVE, posX, posY, age)
 {
 }
 

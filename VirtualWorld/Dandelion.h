@@ -3,6 +3,7 @@
 #define _DANDELION_H_
 
 #include "Plant.h"
+#include "Parameters.h"
 
 class Dandelion : public Plant {
 protected:
@@ -13,7 +14,7 @@ protected:
     
 public:
     Dandelion() = default;
-    Dandelion(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0);
+    Dandelion(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0, unsigned strength = DANDELION_STRENGTH);
     ~Dandelion() override;
 };
 

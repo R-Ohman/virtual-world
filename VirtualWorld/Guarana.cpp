@@ -1,8 +1,8 @@
 #include "Guarana.h"
 #include "Parameters.h"
 
-Guarana::Guarana(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
-	: Plant(currentWorld, GUARANA_STRENGTH, GUARANA_INITIATIVE, posX, posY, age)
+Guarana::Guarana(World* currentWorld, unsigned posX, unsigned posY, unsigned age, unsigned strength)
+	: Plant(currentWorld, strength, GUARANA_INITIATIVE, posX, posY, age)
 {
 }
 

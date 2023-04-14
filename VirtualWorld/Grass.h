@@ -3,6 +3,7 @@
 #define _GRASS_H_
 
 #include "Plant.h"
+#include "Parameters.h"
 
 class Grass : public Plant {
 protected:
@@ -12,7 +13,7 @@ protected:
 
 public:
     Grass() = default;
-    Grass(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0);
+    Grass(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0, unsigned strength = GRASS_STRENGTH);
     ~Grass() override;
 };
 

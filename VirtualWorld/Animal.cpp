@@ -87,9 +87,9 @@ void Animal::collision(Organism* collidingEntity)
 		std::cout << "\tVictory of " << this->getName() << "\n";
 		
 		if (dynamic_cast<Guarana*>(collidingEntity)) {
-			// Eating Guarana increases strength by 3
-			std::cout << "\t\t" << this->getName() << " (" << getX() << "," << getY() << ") strength increased (+3).\n";
-			this->strength += 3;
+			// Eating Guarana increases strength
+			std::cout << "\t\t" << this->getName() << " (" << getX() << "," << getY() << ") strength increased (+"<< GUARANA_BONUS << ").\n";
+			this->strength += GUARANA_BONUS;
 		}
 		
 		// Delete animal from current position and move it to new position

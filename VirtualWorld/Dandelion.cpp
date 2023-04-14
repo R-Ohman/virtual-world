@@ -1,8 +1,8 @@
 #include "Dandelion.h"
 #include "Parameters.h"
 
-Dandelion::Dandelion(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
-	: Plant(currentWorld, DANDELION_STRENGTH, DANDELION_INITIATIVE, posX, posY, age)
+Dandelion::Dandelion(World* currentWorld, unsigned posX, unsigned posY, unsigned age, unsigned strength)
+	: Plant(currentWorld, strength, DANDELION_INITIATIVE, posX, posY, age)
 {
 }
 

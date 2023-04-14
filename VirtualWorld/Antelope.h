@@ -3,6 +3,7 @@
 #define _ANTELOPE_H_
 
 #include "Animal.h"
+#include "Parameters.h"
 
 class Antelope : public Animal {
 protected:
@@ -15,7 +16,7 @@ protected:
     
 public:
     Antelope() = default;
-    Antelope(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0);
+    Antelope(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0, unsigned strength = ANTELOPE_STRENGTH);
     ~Antelope() override;
 };
 

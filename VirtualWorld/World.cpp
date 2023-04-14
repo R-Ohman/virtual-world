@@ -92,7 +92,7 @@ void Entities::remove(Organism* entity)
 
 	if (entity->getName() == "Human") {
 		// Human is dead, so the game is over
-		this->size = unsigned(-1) / 2;
+		dynamic_cast<Human*>(entity)->setStrength(0);
 		std::cout << "GAME OVER: Human died!\n";
 	}
 
@@ -151,43 +151,43 @@ World::World(std::ifstream& loadFile)
 	// Create organisms using data from file
 	// Organisms will be added to the world in the constructor
 	string className;
-	unsigned posX, posY, age, regeneration;
-
+	unsigned posX, posY, age, regeneration, strength;
+	
 	while (loadFile >> className) {
-		loadFile >> posX >> posY >> age;
+		loadFile >> posX >> posY >> age >> strength;
 		if (className == "Antelope") {
-			new Antelope(this, posX, posY, age);
+			new Antelope(this, posX, posY, age, strength);
 		}
 		else if (className == "Belladonna") {
-			new Belladonna(this, posX, posY, age);
+			new Belladonna(this, posX, posY, age, strength);
 		}
 		else if (className == "Dandelion") {
-			new Dandelion(this, posX, posY, age);
+			new Dandelion(this, posX, posY, age, strength);
 		}
 		else if (className == "Fox") {
-			new Fox(this, posX, posY, age);
+			new Fox(this, posX, posY, age, strength);
 		}
 		else if (className == "Grass") {
-			new Grass(this, posX, posY, age);
+			new Grass(this, posX, posY, age, strength);
 		}
 		else if (className == "Guarana") {
-			new Guarana(this, posX, posY, age);
+			new Guarana(this, posX, posY, age, strength);
 		}
 		else if (className == "Hogweed") {
-			new Hogweed(this, posX, posY, age);
+			new Hogweed(this, posX, posY, age, strength);
 		}
 		else if (className == "Human") {
 			loadFile >> regeneration;
-			new Human(this, posX, posY, age, regeneration);
+			new Human(this, posX, posY, age, regeneration, strength);
 		}
 		else if (className == "Sheep") {
-			new Sheep(this, posX, posY, age);
+			new Sheep(this, posX, posY, age, strength);
 		}
 		else if (className == "Turtle") {
-			new Turtle(this, posX, posY, age);
+			new Turtle(this, posX, posY, age, strength);
 		}
 		else if (className == "Wolf") {
-			new Wolf(this, posX, posY, age);
+			new Wolf(this, posX, posY, age, strength);
 		}
 	}
 }
@@ -227,8 +227,15 @@ void World::placeRandom(Organism* entity)
 
 bool World::gameContinues() const
 {
-	// While there is any free space
-	return entitiesList->getSize() < entitiesList->getAllocSize();
+	// iterate every organism
+	Node* current = entitiesList->head;
+	for (size_t i = 0; i < entitiesList->getSize(); i++) {
+		if (dynamic_cast<Human*>(current->entity)) {
+			return dynamic_cast<Human*>(current->entity)->getStrength() > 0;
+		}
+		current = current->next;
+	}
+	return false;
 }
 
 
@@ -255,6 +262,30 @@ void World::drawWorld() const
 {
 	this->drawHeader();
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	/*
+	// Print all Organisms
+	int counter = 1;
+	for (size_t y = 0; y < height; y++) {
+		for (size_t x = 0; x < width; x++) {
+			if (entitiesField[x][y] != nullptr) {
+				std::cout << counter++ << ".\t";
+				std::cout << entitiesField[x][y]->getName() << " (";
+				std::cout << entitiesField[x][y]->getX() << ", " << entitiesField[x][y]->getY() << ")\n";
+			}
+		}
+	}
+	std::cout << std::endl;
+
+	counter = 1;
+	Node* node = entitiesList->head->next;
+	while (node != nullptr && node->entity != nullptr) {
+		std::cout << counter++ << "/" << entitiesList->getSize() << ".\t";
+		std::cout << node->entity->getName() << " (";
+		std::cout << node->entity->getX() << ", " << node->entity->getY() << ")\n";
+		node = node->next;
+	}
+	*/
 
 	unsigned x, y, number = 0;
 
@@ -365,7 +396,7 @@ void World::saveWorld()
 	// Write all organisms with its parameters
 	Node* current = entitiesList->head->next;
 	while (current != nullptr && current->entity != nullptr) {
-		fileBackup << current->entity->getName() << " " << current->entity->getX() << " " << current->entity->getY() << " " << current->entity->getAge() << "\n";
+		fileBackup << current->entity->getName() << " " << current->entity->getX() << " " << current->entity->getY() << " " << current->entity->getAge() << " " << current->entity->getStrength() << "\n";
 		
 		if (dynamic_cast<Human*>(current->entity) != nullptr) {
 			fileBackup << dynamic_cast<Human*>(current->entity)->getRegeneration() << "\n";

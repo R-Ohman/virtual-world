@@ -1,8 +1,8 @@
 #include "Sheep.h"
 #include "Parameters.h"
 
-Sheep::Sheep(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
-	: Animal(currentWorld, SHEEP_STRENGTH, SHEEP_INITIATIVE, posX, posY, age)
+Sheep::Sheep(World* currentWorld, unsigned posX, unsigned posY, unsigned age, unsigned strength)
+	: Animal(currentWorld, strength, SHEEP_INITIATIVE, posX, posY, age)
 {
 }
 

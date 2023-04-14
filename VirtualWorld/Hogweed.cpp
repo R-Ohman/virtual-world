@@ -2,8 +2,8 @@
 #include "World.h"
 
 
-Hogweed::Hogweed(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
-	: Plant(currentWorld, HOGWEED_STRENGTH, HOGWEED_INITIATIVE, posX, posY, age)
+Hogweed::Hogweed(World* currentWorld, unsigned posX, unsigned posY, unsigned age, unsigned strength)
+	: Plant(currentWorld, strength, HOGWEED_INITIATIVE, posX, posY, age)
 {
 }
 

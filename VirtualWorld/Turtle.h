@@ -3,6 +3,7 @@
 #define _TURTLE_H_
 
 #include "Animal.h"
+#include "Parameters.h"
 
 class Turtle : public Animal {
 protected:
@@ -14,7 +15,7 @@ protected:
     
 public:
     Turtle() = default;
-    Turtle(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0);    
+    Turtle(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0, unsigned strength = TURTLE_STRENGTH);
     ~Turtle() override;
 };
 

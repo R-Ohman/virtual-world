@@ -1,8 +1,8 @@
 ﻿#include "Antelope.h"
 #include "World.h"
 
-Antelope::Antelope(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
-	: Animal(currentWorld, ANTELOPE_STRENGTH, ANTELOPE_INITIATIVE, posX, posY, age)
+Antelope::Antelope(World* currentWorld, unsigned posX, unsigned posY, unsigned age, unsigned strength)
+	: Animal(currentWorld, strength, ANTELOPE_INITIATIVE, posX, posY, age)
 {
 }
 

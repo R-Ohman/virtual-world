@@ -3,6 +3,7 @@
 #define _FOX_H_
 
 #include "Animal.h"
+#include "Parameters.h"
 
 class Fox : public Animal {
 protected:
@@ -13,7 +14,7 @@ protected:
 
 public:
     Fox() = default;
-    Fox(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0);
+    Fox(World* currentWorld, unsigned posX = -1, unsigned posY = -1, unsigned age = 0, unsigned strength = FOX_STRENGTH);
     ~Fox() override;
 };
 

@@ -1,8 +1,8 @@
 ﻿#include "Fox.h"
 #include "World.h"
 
-Fox::Fox(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
-	: Animal(currentWorld, FOX_STRENGTH, FOX_INITIATIVE, posX, posY, age)
+Fox::Fox(World* currentWorld, unsigned posX, unsigned posY, unsigned age, unsigned strength)
+	: Animal(currentWorld, strength, FOX_INITIATIVE, posX, posY, age)
 {
 }
 

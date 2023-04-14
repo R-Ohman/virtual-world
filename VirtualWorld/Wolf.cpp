@@ -1,8 +1,8 @@
 #include "Wolf.h"
 #include "Parameters.h"
 
-Wolf::Wolf(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
-	: Animal(currentWorld, WOLF_STRENGTH, WOLF_INITIATIVE, posX, posY, age)
+Wolf::Wolf(World* currentWorld, unsigned posX, unsigned posY, unsigned age, unsigned strength)
+	: Animal(currentWorld, strength, WOLF_INITIATIVE, posX, posY, age)
 {
 }
 

@@ -1,8 +1,8 @@
 #include "Belladonna.h"
 #include "Parameters.h"
 
-Belladonna::Belladonna(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
-	: Plant(currentWorld, BELLADONNA_STRENGTH, BELLADONNA_INITIATIVE, posX, posY, age)
+Belladonna::Belladonna(World* currentWorld, unsigned posX, unsigned posY, unsigned age, unsigned strength)
+	: Plant(currentWorld, strength, BELLADONNA_INITIATIVE, posX, posY, age)
 {
 }
 

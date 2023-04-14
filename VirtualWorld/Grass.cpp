@@ -1,8 +1,8 @@
 #include "Grass.h"
 #include "Parameters.h"
 
-Grass::Grass(World* currentWorld, unsigned posX, unsigned posY, unsigned age)
-	: Plant(currentWorld, GRASS_STRENGTH, GRASS_INITIATIVE, posX, posY, age)
+Grass::Grass(World* currentWorld, unsigned posX, unsigned posY, unsigned age, unsigned strength)
+	: Plant(currentWorld, strength, GRASS_INITIATIVE, posX, posY, age)
 {
 }
 
